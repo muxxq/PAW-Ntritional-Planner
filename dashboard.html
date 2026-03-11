@@ -53,6 +53,28 @@
         </div>
     </nav>
 
+    <main class="container" style="padding-top:80px; padding-bottom:80px;">
+        <h2 class="mb-4">Today's overview</h2>
+
+        <div class="row">
+            <div class="col-12 col-md-6">
+                <div class="card" id="calories-card" data-consumed="1600" data-target="2000">
+                    <div class="card-header text-uppercase">CALORIES</div>
+                    <div class="card-body">
+                        <div class="mb-2">
+                            <strong id="calories-text">1600/2000 kcal</strong>
+                            <div class="small text-muted">Calories consumed vs daily target</div>
+                        </div>
+                        <div class="progress" style="height:18px;">
+                            <div id="calories-progress" class="progress-bar" role="progressbar" style="width:80%;"
+                                aria-valuenow="1600" aria-valuemin="0" aria-valuemax="2000">80%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
     <footer class="bg-white py-3 fixed-bottom">
         <div class="container-fluid">
             <span class="text-muted small">&copy; 2026 NutriPlan. All rights reserved.</span>
