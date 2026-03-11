@@ -157,5 +157,3 @@ Testare recomandată:
 	- `login.html`, `register.html` — formulare autentificare
 	- `meals.html`, `planner.html`, `recipes.html`, `shopping-list.html` — pagini de funcționalitate
 	- `assets/css/style.css` — stiluri adiționale
-
-Pentru detalii suplimentare, pot adapta acest document la format cerut (pdf / prezentare) sau pot transforma fiecare secțiune într-un backlog de issue-uri (GitHub issues) cu estimări și priorități.
