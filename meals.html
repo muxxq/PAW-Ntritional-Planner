@@ -39,59 +39,154 @@
 </nav>
 
         <main class="container" style="padding-top:80px; padding-bottom:80px;">
-            <div class="row justify-content-center">
-                <div class="col-12 col-md-10 col-lg-8">
-                    <h2 class="mb-3">Meal journal</h2>
-
-                    <div class="card mb-3">
-                        <div class="card-body">
-                            <!-- Add meal UI (no functionality) -->
-                            <div class="row g-2 align-items-center">
-                                <div class="col-7">
-                                    <input type="text" class="form-control" placeholder="Meal name (e.g. Oatmeal)">
-                                </div>
-                                <div class="col-3">
-                                    <input type="number" class="form-control" placeholder="Calories">
-                                </div>
-                                <div class="col-2">
-                                    <button class="btn btn-outline-secondary w-100" type="button">Add</button>
-                                </div>
-                            </div>
+            <div class="row layout-spacing">
+                <div class="col-12">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h2 class="mb-0">Today's Meals</h2>
+                        <div class="text-muted">
+                            <span class="badge bg-primary fs-6 me-2">1370 / 2000 kcal</span>
+                            <span class="badge bg-secondary fs-6">March 15, 2026</span>
                         </div>
                     </div>
 
-                    <div class="card">
+                    <!-- Add Meal Form -->
+                    <div class="card mb-4 shadow-sm border-0 bg-light">
+                        <div class="card-body">
+                            <h5 class="card-title mb-3">Add to your left</h5>
+                            <form>
+                                <div class="row g-3 align-items-end">
+                                    <!-- Recipe Selector -->
+                                    <div class="col-md-5">
+                                        <label for="recipeSelect" class="form-label small text-muted">Select Recipe / Food</label>
+                                        <select class="form-select" id="recipeSelect">
+                                            <option selected disabled>Choose from your recipes...</option>
+                                            <optgroup label="My Recipes">
+                                                <option value="1">Oatmeal with Banana</option>
+                                                <option value="2">Chicken Salad</option>
+                                                <option value="3">Grilled Salmon & Veggies</option>
+                                            </optgroup>
+                                            <optgroup label="App Database">
+                                                <option value="4">Apple (1 medium)</option>
+                                                <option value="5">Boiled Egg</option>
+                                                <option value="6">Greek Yogurt</option>
+                                            </optgroup>
+                                        </select>
+                                    </div>
+
+                                    <!-- Portion Input -->
+                                    <div class="col-md-3">
+                                        <label for="portionInput" class="form-label small text-muted">Portion (1 = full recipe)</label>
+                                        <div class="input-group">
+                                            <input type="number" class="form-control" id="portionInput" value="1" step="0.1" min="0.1">
+                                            <span class="input-group-text">x</span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Meal Type / Time -->
+                                    <div class="col-md-2">
+                                        <label for="mealTypeSelect" class="form-label small text-muted">Meal</label>
+                                        <select class="form-select" id="mealTypeSelect">
+                                            <option value="breakfast">Breakfast</option>
+                                            <option value="lunch">Lunch</option>
+                                            <option value="dinner">Dinner</option>
+                                            <option value="snack">Snack</option>
+                                        </select>
+                                    </div>
+
+                                    <!-- Add Button -->
+                                    <div class="col-md-2">
+                                        <button class="btn btn-primary w-100" type="button" id="addMealBtn">Add Meal</button>
+                                    </div>
+                                </div>
+                                
+                                <!-- Preview computed values based on selection -->
+                                <div class="row mt-3 text-muted small" id="mealPreview" style="display: none;">
+                                    <div class="col-12">
+                                        <span class="me-3"><strong>Calories:</strong> <span id="previewCal">320</span> kcal</span>
+                                        <span class="me-3"><strong>Protein:</strong> <span id="previewPro">10</span>g</span>
+                                        <span class="me-3"><strong>Carbs:</strong> <span id="previewCarb">55</span>g</span>
+                                        <span><strong>Fats:</strong> <span id="previewFat">5</span>g</span>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Daily Journal Table -->
+                    <div class="card shadow-sm border-0">
                         <div class="card-body p-0">
                             <div class="table-responsive">
-                                <table class="table table-striped mb-0">
+                                <table class="table table-hover align-middle mb-0">
                                     <thead class="table-light">
                                         <tr>
-                                            <th scope="col">Time</th>
-                                            <th scope="col">Meal</th>
-                                            <th scope="col">Calories</th>
-                                            <th scope="col">Notes</th>
+                                            <th scope="col" class="ps-3 border-0">Meal Type</th>
+                                            <th scope="col" class="border-0">Food / Recipe</th>
+                                            <th scope="col" class="border-0 text-center">Portion</th>
+                                            <th scope="col" class="border-0 text-center">Calories</th>
+                                            <th scope="col" class="border-0 text-center d-none d-sm-table-cell">Macros (P/C/F)</th>
+                                            <th scope="col" class="border-0 text-end pe-3">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        <!-- Breakfast -->
                                         <tr>
-                                            <td>08:00</td>
-                                            <td>Oatmeal with banana</td>
-                                            <td>320 kcal</td>
-                                            <td>With honey</td>
+                                            <td class="ps-3"><span class="badge bg-warning text-dark">Breakfast</span></td>
+                                            <td>
+                                                <strong>Oatmeal with banana</strong>
+                                                <div class="small text-muted">Added at 08:30</div>
+                                            </td>
+                                            <td class="text-center">1 x</td>
+                                            <td class="text-center fw-bold text-primary">320 kcal</td>
+                                            <td class="text-center d-none d-sm-table-cell text-muted small">
+                                                10g / 55g / 5g
+                                            </td>
+                                            <td class="text-end pe-3">
+                                                <button class="btn btn-sm btn-outline-danger" title="Remove">Del</button>
+                                            </td>
                                         </tr>
+                                        <!-- Lunch -->
                                         <tr>
-                                            <td>12:30</td>
-                                            <td>Chicken salad</td>
-                                            <td>450 kcal</td>
-                                            <td>Light dressing</td>
+                                            <td class="ps-3"><span class="badge bg-success">Lunch</span></td>
+                                            <td>
+                                                <strong>Chicken salad</strong>
+                                                <div class="small text-muted">Added at 13:15</div>
+                                            </td>
+                                            <td class="text-center">1.5 x</td>
+                                            <td class="text-center fw-bold text-primary">450 kcal</td>
+                                            <td class="text-center d-none d-sm-table-cell text-muted small">
+                                                40g / 15g / 20g
+                                            </td>
+                                            <td class="text-end pe-3">
+                                                <button class="btn btn-sm btn-outline-danger" title="Remove">Del</button>
+                                            </td>
                                         </tr>
+                                        <!-- Dinner -->
                                         <tr>
-                                            <td>19:00</td>
-                                            <td>Grilled salmon & veggies</td>
-                                            <td>600 kcal</td>
-                                            <td>Simple seasoning</td>
+                                            <td class="ps-3"><span class="badge bg-info text-dark">Dinner</span></td>
+                                            <td>
+                                                <strong>Grilled salmon & veggies</strong>
+                                                <div class="small text-muted">Added at 19:00</div>
+                                            </td>
+                                            <td class="text-center">1 x</td>
+                                            <td class="text-center fw-bold text-primary">600 kcal</td>
+                                            <td class="text-center d-none d-sm-table-cell text-muted small">
+                                                35g / 20g / 25g
+                                            </td>
+                                            <td class="text-end pe-3">
+                                                <button class="btn btn-sm btn-outline-danger" title="Remove">Del</button>
+                                            </td>
                                         </tr>
                                     </tbody>
+                                    <tfoot class="table-light fw-bold">
+                                        <tr>
+                                            <td colspan="3" class="text-end ps-3 border-0">Daily Totals:</td>
+                                            <td class="text-center text-primary border-0">1370 kcal</td>
+                                            <td class="text-center d-none d-sm-table-cell border-0">
+                                                <span class="text-info">85g</span> / <span class="text-warning">90g</span> / <span class="text-danger">50g</span>
+                                            </td>
+                                            <td class="border-0"></td>
+                                        </tr>
+                                    </tfoot>
                                 </table>
                             </div>
                         </div>
