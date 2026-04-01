@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace NutriPlan.Models
 {
-    // Tabelul de ingrediente/produse - repository-ul de alimente folosite des
+    // Tabelul de ingrediente/produse
     public class Ingredient
     {
         public int Id { get; set; }

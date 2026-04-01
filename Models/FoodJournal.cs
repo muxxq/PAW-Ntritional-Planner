@@ -33,7 +33,7 @@ namespace NutriPlan.Models
         public int JournalId { get; set; }
         public FoodJournal FoodJournal { get; set; } = null!;
 
-        // Se poate loga fie o reteta, fie un ingredient direct (unul din doua va fi null)
+        // Se poate loga fie o reteta, fie un ingredient direct
         public int? RecipeId { get; set; }
         public Recipe? Recipe { get; set; }
 
@@ -47,7 +47,7 @@ namespace NutriPlan.Models
         [Required, MaxLength(50)]
         public string MealType { get; set; } = "Snack";
 
-        // Kcal calculate la momentul logarii (nu recalculat ulterior)
+        // Kcal calculate la momentul logarii
         [Column(TypeName = "decimal(10,2)")]
         public decimal KcalConsumed { get; set; }
 

@@ -7,7 +7,7 @@ namespace NutriPlan.Models
     {
         public int Id { get; set; }
 
-        // FK catre User (creatorul retetei)
+        // FK catre User
         public int UserId { get; set; }
         public User User { get; set; } = null!;
 
@@ -21,7 +21,7 @@ namespace NutriPlan.Models
         public int PrepTimeMin { get; set; }
         public int CookTimeMin { get; set; }
 
-        // Calculat automat din ingrediente (se poate recalcula la save)
+        // Calculat automat din ingrediente
         [Column(TypeName = "decimal(10,2)")]
         public decimal TotalKcal { get; set; }
 
@@ -48,7 +48,7 @@ namespace NutriPlan.Models
         [Column(TypeName = "decimal(10,2)")]
         public decimal Quantity { get; set; }
 
-        // Unitatea poate diferi de cea implicita (ex: ingredient in g, dar reteta foloseste "lingurite")
+        // Unitatea poate diferi de cea implicita
         [MaxLength(20)]
         public string Unit { get; set; } = "g";
     }

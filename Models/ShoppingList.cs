@@ -26,7 +26,7 @@ namespace NutriPlan.Models
         public int ShoppingListId { get; set; }
         public ShoppingList ShoppingList { get; set; } = null!;
 
-        // Ingredient din repository (optional - poate fi si un item custom)
+        // Ingredient din repository optional poate fi si un item custom
         public int? IngredientId { get; set; }
         public Ingredient? Ingredient { get; set; }
 

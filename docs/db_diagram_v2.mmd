@@ -1,0 +1,104 @@
+erDiagram
+    USERS {
+        int id PK
+        string name
+        string email UK
+        string password_hash
+        int caloric_target
+        string goal
+        int protein_target_g
+        int carbs_target_g
+        int fats_target_g
+        datetime created_at
+    }
+    INGREDIENTS {
+        int id PK
+        string name UK
+        decimal calories_per_100g
+        decimal proteins
+        decimal carbs
+        decimal fats
+        decimal sugars
+        string unit
+    }
+    RECIPES {
+        int id PK
+        int user_id FK
+        string name
+        string description
+        int servings
+        int prep_time_min
+        int cook_time_min
+        decimal total_kcal
+        datetime created_at
+    }
+    RECIPE_INGREDIENTS {
+        int id PK
+        int recipe_id FK
+        int ingredient_id FK
+        decimal quantity
+        string unit
+    }
+    FOOD_JOURNALS {
+        int id PK
+        int user_id FK
+        date journal_date
+        string notes
+        decimal total_kcal_consumed
+    }
+    JOURNAL_ENTRIES {
+        int id PK
+        int journal_id FK
+        int recipe_id FK
+        int ingredient_id FK
+        decimal quantity
+        string meal_type
+        decimal kcal_consumed
+        decimal proteins_consumed
+        decimal carbs_consumed
+        decimal fats_consumed
+        datetime logged_at
+    }
+    MEAL_PLANNERS {
+        int id PK
+        int user_id FK
+        date plan_date
+        string meal_type
+        string notes
+    }
+    PLANNER_ITEMS {
+        int id PK
+        int planner_id FK
+        int recipe_id FK
+        int ingredient_id FK
+        decimal quantity
+    }
+    SHOPPING_LISTS {
+        int id PK
+        int user_id FK
+        string name
+        datetime created_at
+    }
+    SHOPPING_LIST_ITEMS {
+        int id PK
+        int shopping_list_id FK
+        int ingredient_id FK
+        string custom_item_name
+        decimal quantity
+        string unit
+        boolean is_checked
+    }
+    USERS ||--o{ RECIPES : creates
+    USERS ||--o{ FOOD_JOURNALS : owns
+    USERS ||--o{ MEAL_PLANNERS : owns
+    USERS ||--o{ SHOPPING_LISTS : owns
+    RECIPES ||--o{ RECIPE_INGREDIENTS : has
+    INGREDIENTS ||--o{ RECIPE_INGREDIENTS : used_in
+    FOOD_JOURNALS ||--o{ JOURNAL_ENTRIES : contains
+    RECIPES o|--o{ JOURNAL_ENTRIES : logged_as_recipe
+    INGREDIENTS o|--o{ JOURNAL_ENTRIES : logged_as_ingredient
+    MEAL_PLANNERS ||--o{ PLANNER_ITEMS : contains
+    RECIPES o|--o{ PLANNER_ITEMS : planned_recipe
+    INGREDIENTS o|--o{ PLANNER_ITEMS : planned_ingredient
+    SHOPPING_LISTS ||--o{ SHOPPING_LIST_ITEMS : contains
+    INGREDIENTS o|--o{ SHOPPING_LIST_ITEMS : optional_reference

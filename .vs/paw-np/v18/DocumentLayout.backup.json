@@ -1,0 +1,75 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\Max\\Documents\\Projects\\paw-np\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{B9EF7B97-5E36-727C-8615-2C1EB9CA8B9E}|paw-np.csproj|c:\\users\\max\\documents\\projects\\paw-np\\models\\ingredient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B9EF7B97-5E36-727C-8615-2C1EB9CA8B9E}|paw-np.csproj|solutionrelative:models\\ingredient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B9EF7B97-5E36-727C-8615-2C1EB9CA8B9E}|paw-np.csproj|c:\\users\\max\\documents\\projects\\paw-np\\data\\nutriplandbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B9EF7B97-5E36-727C-8615-2C1EB9CA8B9E}|paw-np.csproj|solutionrelative:data\\nutriplandbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B9EF7B97-5E36-727C-8615-2C1EB9CA8B9E}|paw-np.csproj|c:\\users\\max\\documents\\projects\\paw-np\\controllers\\ingredientscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B9EF7B97-5E36-727C-8615-2C1EB9CA8B9E}|paw-np.csproj|solutionrelative:controllers\\ingredientscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Ingredient.cs",
+              "DocumentMoniker": "C:\\Users\\Max\\Documents\\Projects\\paw-np\\Models\\Ingredient.cs",
+              "RelativeDocumentMoniker": "Models\\Ingredient.cs",
+              "ToolTip": "C:\\Users\\Max\\Documents\\Projects\\paw-np\\Models\\Ingredient.cs",
+              "RelativeToolTip": "Models\\Ingredient.cs",
+              "ViewState": "AgIAABoAAAAAAAAAAAAswAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-01T12:09:35.412Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "NutriPlanDbContext.cs",
+              "DocumentMoniker": "C:\\Users\\Max\\Documents\\Projects\\paw-np\\Data\\NutriPlanDbContext.cs",
+              "RelativeDocumentMoniker": "Data\\NutriPlanDbContext.cs",
+              "ToolTip": "C:\\Users\\Max\\Documents\\Projects\\paw-np\\Data\\NutriPlanDbContext.cs",
+              "RelativeToolTip": "Data\\NutriPlanDbContext.cs",
+              "ViewState": "AgIAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-01T12:07:44.865Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "IngredientsController.cs",
+              "DocumentMoniker": "C:\\Users\\Max\\Documents\\Projects\\paw-np\\Controllers\\IngredientsController.cs",
+              "RelativeDocumentMoniker": "Controllers\\IngredientsController.cs",
+              "ToolTip": "C:\\Users\\Max\\Documents\\Projects\\paw-np\\Controllers\\IngredientsController.cs",
+              "RelativeToolTip": "Controllers\\IngredientsController.cs",
+              "ViewState": "AgIAAHUAAAAAAAAAAAAAABUAAAAbAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-01T12:06:01.349Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

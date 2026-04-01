@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace NutriPlan.Models
 {
-    // O intrare in calendar (o zi + un tip de masa)
+    // O intrare in calendar
     public class MealPlanner
     {
         public int Id { get; set; }
@@ -33,7 +33,7 @@ namespace NutriPlan.Models
         public int PlannerId { get; set; }
         public MealPlanner MealPlanner { get; set; } = null!;
 
-        // Fie reteta, fie ingredient direct (ca la JournalEntry)
+        // Fie reteta, fie ingredient direct
         public int? RecipeId { get; set; }
         public Recipe? Recipe { get; set; }
 
