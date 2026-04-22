@@ -1,0 +1,51 @@
+@model paw_np.Models.ViewModels.ShoppingListIndexViewModel
+
+@{
+    ViewData["Title"] = "Shopping Lists";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h3 mb-0">Shopping Lists</h1>
+    <a asp-action="Create" class="btn btn-success">Create New List</a>
+</div>
+
+@if (!Model.ShoppingLists.Any())
+{
+    <div class="alert alert-info">No shopping lists yet.</div>
+}
+else
+{
+    <table class="table table-striped align-middle">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>User ID</th>
+                <th>Created</th>
+                <th>Items</th>
+                <th class="text-end">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var list in Model.ShoppingLists)
+        {
+            <tr>
+                <td>@list.Name</td>
+                <td>@list.UserId</td>
+                <td>@list.CreatedAt.ToLocalTime().ToString("yyyy-MM-dd HH:mm")</td>
+                <td>@list.CheckedItemCount / @list.ItemCount checked</td>
+                <td class="text-end">
+                    <a asp-action="Details" asp-route-id="@list.Id" class="btn btn-sm btn-outline-primary">Details</a>
+                    <a asp-action="Edit" asp-route-id="@list.Id" class="btn btn-sm btn-outline-secondary">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@list.Id" class="btn btn-sm btn-outline-danger">Delete</a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

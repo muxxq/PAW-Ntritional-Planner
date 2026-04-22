@@ -84,9 +84,12 @@ namespace paw_np.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("character varying(20)");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("Name")
+                    b.HasIndex("UserId", "Name")
                         .IsUnique();
 
                     b.ToTable("Ingredients");
@@ -101,7 +104,8 @@ namespace paw_np.Migrations
                             Name = "Ou",
                             Proteins = 13m,
                             Sugars = 1.1m,
-                            Unit = "buc"
+                            Unit = "buc",
+                            UserId = 1
                         },
                         new
                         {
@@ -112,7 +116,8 @@ namespace paw_np.Migrations
                             Name = "Piept pui",
                             Proteins = 31m,
                             Sugars = 0m,
-                            Unit = "g"
+                            Unit = "g",
+                            UserId = 1
                         },
                         new
                         {
@@ -123,7 +128,8 @@ namespace paw_np.Migrations
                             Name = "Orez alb",
                             Proteins = 2.7m,
                             Sugars = 0m,
-                            Unit = "g"
+                            Unit = "g",
+                            UserId = 1
                         },
                         new
                         {
@@ -134,7 +140,8 @@ namespace paw_np.Migrations
                             Name = "Lapte 3.5%",
                             Proteins = 3.2m,
                             Sugars = 4.8m,
-                            Unit = "ml"
+                            Unit = "ml",
+                            UserId = 1
                         },
                         new
                         {
@@ -145,7 +152,8 @@ namespace paw_np.Migrations
                             Name = "Banana",
                             Proteins = 1.1m,
                             Sugars = 12m,
-                            Unit = "buc"
+                            Unit = "buc",
+                            UserId = 1
                         });
                 });
 
@@ -437,6 +445,17 @@ namespace paw_np.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("NutriPlan.Models.Ingredient", b =>
+                {
+                    b.HasOne("NutriPlan.Models.User", "User")
+                        .WithMany("Ingredients")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("NutriPlan.Models.JournalEntry", b =>
                 {
                     b.HasOne("NutriPlan.Models.Ingredient", "Ingredient")
@@ -595,6 +614,8 @@ namespace paw_np.Migrations
             modelBuilder.Entity("NutriPlan.Models.User", b =>
                 {
                     b.Navigation("FoodJournals");
+
+                    b.Navigation("Ingredients");
 
                     b.Navigation("MealPlanners");
 

@@ -1,0 +1,111 @@
+@model paw_np.Models.ViewModels.ShoppingListDetailsViewModel
+
+@{
+    ViewData["Title"] = "Shopping List Details";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h3 mb-0">@Model.ShoppingList.Name</h1>
+    <div>
+        <a asp-action="Edit" asp-route-id="@Model.ShoppingList.Id" class="btn btn-outline-secondary">Edit List</a>
+        <a asp-action="Index" class="btn btn-link">Back to Lists</a>
+    </div>
+</div>
+
+<p class="text-muted mb-4">User ID: @Model.ShoppingList.UserId</p>
+
+<div class="card mb-4">
+    <div class="card-header">Add Item</div>
+    <div class="card-body">
+        <form asp-action="AddItem" method="post" class="row g-3">
+            @Html.AntiForgeryToken()
+            <input type="hidden" asp-for="NewItemForm.ShoppingListId" />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="col-md-4">
+                <label asp-for="NewItemForm.IngredientId" class="form-label"></label>
+                <select asp-for="NewItemForm.IngredientId" class="form-select">
+                    <option value="">-- Select ingredient --</option>
+                    @foreach (var ingredient in Model.NewItemForm.AvailableIngredients)
+                    {
+                        <option value="@ingredient.Id">@ingredient.Name</option>
+                    }
+                </select>
+            </div>
+
+            <div class="col-md-4">
+                <label asp-for="NewItemForm.CustomItemName" class="form-label"></label>
+                <input asp-for="NewItemForm.CustomItemName" class="form-control" />
+                <span asp-validation-for="NewItemForm.CustomItemName" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-2">
+                <label asp-for="NewItemForm.Quantity" class="form-label"></label>
+                <input asp-for="NewItemForm.Quantity" class="form-control" />
+                <span asp-validation-for="NewItemForm.Quantity" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-2">
+                <label asp-for="NewItemForm.Unit" class="form-label"></label>
+                <input asp-for="NewItemForm.Unit" class="form-control" />
+                <span asp-validation-for="NewItemForm.Unit" class="text-danger"></span>
+            </div>
+
+            <div class="col-12">
+                <button type="submit" class="btn btn-primary">Add Item</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@if (!Model.Items.Any())
+{
+    <div class="alert alert-info">No items in this shopping list.</div>
+}
+else
+{
+    <table class="table table-striped align-middle">
+        <thead>
+            <tr>
+                <th>Status</th>
+                <th>Item</th>
+                <th>Quantity</th>
+                <th class="text-end">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model.Items)
+        {
+            <tr>
+                <td>
+                    <form asp-action="ToggleItemChecked" method="post">
+                        <input type="hidden" name="id" value="@item.Id" />
+                        <input type="hidden" name="shoppingListId" value="@item.ShoppingListId" />
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="btn btn-sm @(item.IsChecked ? "btn-success" : "btn-outline-secondary")">
+                            @(item.IsChecked ? "Checked" : "Open")
+                        </button>
+                    </form>
+                </td>
+                <td>@item.DisplayName</td>
+                <td>@item.Quantity @item.Unit</td>
+                <td class="text-end">
+                    <a asp-action="EditItem" asp-route-id="@item.Id" class="btn btn-sm btn-outline-secondary">Edit</a>
+                    <form asp-action="DeleteItem" method="post" class="d-inline">
+                        <input type="hidden" name="id" value="@item.Id" />
+                        <input type="hidden" name="shoppingListId" value="@item.ShoppingListId" />
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

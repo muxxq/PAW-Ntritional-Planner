@@ -1,0 +1,66 @@
+@model paw_np.Models.ViewModels.FoodJournalEntryFormViewModel
+
+@{
+    ViewData["Title"] = "Edit Entry";
+}
+
+<h1 class="h3 mb-3">Edit Entry</h1>
+
+<div class="card">
+    <div class="card-body">
+        <form asp-action="EditEntry" asp-route-id="@Model.Id" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="JournalId" />
+
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label asp-for="RecipeId" class="form-label"></label>
+                    <input asp-for="RecipeId" class="form-control" />
+                    <span asp-validation-for="RecipeId" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="IngredientId" class="form-label"></label>
+                    <input asp-for="IngredientId" class="form-control" />
+                    <span asp-validation-for="IngredientId" class="text-danger"></span>
+                </div>
+                <div class="col-md-3">
+                    <label asp-for="Quantity" class="form-label"></label>
+                    <input asp-for="Quantity" class="form-control" />
+                    <span asp-validation-for="Quantity" class="text-danger"></span>
+                </div>
+                <div class="col-md-3">
+                    <label asp-for="MealType" class="form-label"></label>
+                    <select asp-for="MealType" class="form-select">
+                        <option value="Breakfast">Mic dejun</option>
+                        <option value="Lunch">Pranz</option>
+                        <option value="Dinner">Cina</option>
+                        <option value="Snack">Snack</option>
+                    </select>
+                    <span asp-validation-for="MealType" class="text-danger"></span>
+                </div>
+                <div class="col-md-3">
+                    <label asp-for="KcalConsumed" class="form-label"></label>
+                    <input asp-for="KcalConsumed" class="form-control" />
+                    <span asp-validation-for="KcalConsumed" class="text-danger"></span>
+                </div>
+                <div class="col-md-3">
+                    <label asp-for="LoggedAt" class="form-label"></label>
+                    <input asp-for="LoggedAt" class="form-control" />
+                    <span asp-validation-for="LoggedAt" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="mt-3">
+                <button type="submit" class="btn btn-primary">Save</button>
+                <a asp-action="Details" asp-route-id="@Model.JournalId" class="btn btn-link">Back to Details</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -3,20 +3,64 @@
   "WorkspaceRootPath": "C:\\Users\\Max\\Documents\\Projects\\paw-np\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{B9EF7B97-5E36-727C-8615-2C1EB9CA8B9E}|paw-np.csproj|c:\\users\\max\\documents\\projects\\paw-np\\docs\\db_diagram_v2.mmd||{8B382828-6202-11D1-8870-0000F87579D2}",
-      "RelativeMoniker": "D:0:0:{B9EF7B97-5E36-727C-8615-2C1EB9CA8B9E}|paw-np.csproj|solutionrelative:docs\\db_diagram_v2.mmd||{8B382828-6202-11D1-8870-0000F87579D2}"
+      "AbsoluteMoniker": "D:0:0:{B9EF7B97-5E36-727C-8615-2C1EB9CA8B9E}|paw-np.csproj|c:\\users\\max\\documents\\projects\\paw-np\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B9EF7B97-5E36-727C-8615-2C1EB9CA8B9E}|paw-np.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{B9EF7B97-5E36-727C-8615-2C1EB9CA8B9E}|paw-np.csproj|c:\\users\\max\\documents\\projects\\paw-np\\models\\ingredient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B9EF7B97-5E36-727C-8615-2C1EB9CA8B9E}|paw-np.csproj|solutionrelative:models\\ingredient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{B9EF7B97-5E36-727C-8615-2C1EB9CA8B9E}|paw-np.csproj|c:\\users\\max\\documents\\projects\\paw-np\\controllers\\shoppinglistcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B9EF7B97-5E36-727C-8615-2C1EB9CA8B9E}|paw-np.csproj|solutionrelative:controllers\\shoppinglistcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B9EF7B97-5E36-727C-8615-2C1EB9CA8B9E}|paw-np.csproj|c:\\users\\max\\documents\\projects\\paw-np\\controllers\\foodjournalcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B9EF7B97-5E36-727C-8615-2C1EB9CA8B9E}|paw-np.csproj|solutionrelative:controllers\\foodjournalcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B9EF7B97-5E36-727C-8615-2C1EB9CA8B9E}|paw-np.csproj|c:\\users\\max\\documents\\projects\\paw-np\\controllers\\ingredientscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B9EF7B97-5E36-727C-8615-2C1EB9CA8B9E}|paw-np.csproj|solutionrelative:controllers\\ingredientscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B9EF7B97-5E36-727C-8615-2C1EB9CA8B9E}|paw-np.csproj|c:\\users\\max\\documents\\projects\\paw-np\\repositories\\interfaces\\irepositorybase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B9EF7B97-5E36-727C-8615-2C1EB9CA8B9E}|paw-np.csproj|solutionrelative:repositories\\interfaces\\irepositorybase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B9EF7B97-5E36-727C-8615-2C1EB9CA8B9E}|paw-np.csproj|c:\\users\\max\\documents\\projects\\paw-np\\repositories\\ingredientrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B9EF7B97-5E36-727C-8615-2C1EB9CA8B9E}|paw-np.csproj|solutionrelative:repositories\\ingredientrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B9EF7B97-5E36-727C-8615-2C1EB9CA8B9E}|paw-np.csproj|c:\\users\\max\\documents\\projects\\paw-np\\models\\viewmodels\\authviewmodels.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B9EF7B97-5E36-727C-8615-2C1EB9CA8B9E}|paw-np.csproj|solutionrelative:models\\viewmodels\\authviewmodels.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B9EF7B97-5E36-727C-8615-2C1EB9CA8B9E}|paw-np.csproj|c:\\users\\max\\documents\\projects\\paw-np\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B9EF7B97-5E36-727C-8615-2C1EB9CA8B9E}|paw-np.csproj|solutionrelative:controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B9EF7B97-5E36-727C-8615-2C1EB9CA8B9E}|paw-np.csproj|c:\\users\\max\\documents\\projects\\paw-np\\models\\viewmodels\\foodjournalpageviewmodels.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B9EF7B97-5E36-727C-8615-2C1EB9CA8B9E}|paw-np.csproj|solutionrelative:models\\viewmodels\\foodjournalpageviewmodels.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B9EF7B97-5E36-727C-8615-2C1EB9CA8B9E}|paw-np.csproj|c:\\users\\max\\documents\\projects\\paw-np\\models\\viewmodels\\foodjournalformviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B9EF7B97-5E36-727C-8615-2C1EB9CA8B9E}|paw-np.csproj|solutionrelative:models\\viewmodels\\foodjournalformviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{B9EF7B97-5E36-727C-8615-2C1EB9CA8B9E}|paw-np.csproj|c:\\users\\max\\documents\\projects\\paw-np\\data\\nutriplandbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{B9EF7B97-5E36-727C-8615-2C1EB9CA8B9E}|paw-np.csproj|solutionrelative:data\\nutriplandbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{B9EF7B97-5E36-727C-8615-2C1EB9CA8B9E}|paw-np.csproj|c:\\users\\max\\documents\\projects\\paw-np\\controllers\\ingredientscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B9EF7B97-5E36-727C-8615-2C1EB9CA8B9E}|paw-np.csproj|solutionrelative:controllers\\ingredientscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{B9EF7B97-5E36-727C-8615-2C1EB9CA8B9E}|paw-np.csproj|c:\\users\\max\\documents\\projects\\paw-np\\models\\viewmodels\\shoppinglistformviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B9EF7B97-5E36-727C-8615-2C1EB9CA8B9E}|paw-np.csproj|solutionrelative:models\\viewmodels\\shoppinglistformviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B9EF7B97-5E36-727C-8615-2C1EB9CA8B9E}|paw-np.csproj|c:\\users\\max\\documents\\projects\\paw-np\\controllers\\recipescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B9EF7B97-5E36-727C-8615-2C1EB9CA8B9E}|paw-np.csproj|solutionrelative:controllers\\recipescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B9EF7B97-5E36-727C-8615-2C1EB9CA8B9E}|paw-np.csproj|c:\\users\\max\\documents\\projects\\paw-np\\models\\foodjournal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B9EF7B97-5E36-727C-8615-2C1EB9CA8B9E}|paw-np.csproj|solutionrelative:models\\foodjournal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B9EF7B97-5E36-727C-8615-2C1EB9CA8B9E}|paw-np.csproj|c:\\users\\max\\documents\\projects\\paw-np\\models\\ingredient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B9EF7B97-5E36-727C-8615-2C1EB9CA8B9E}|paw-np.csproj|solutionrelative:models\\ingredient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -26,20 +70,145 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 16,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "db_diagram_v2.mmd",
-              "DocumentMoniker": "C:\\Users\\Max\\Documents\\Projects\\paw-np\\docs\\db_diagram_v2.mmd",
-              "RelativeDocumentMoniker": "docs\\db_diagram_v2.mmd",
-              "ToolTip": "C:\\Users\\Max\\Documents\\Projects\\paw-np\\docs\\db_diagram_v2.mmd",
-              "RelativeToolTip": "docs\\db_diagram_v2.mmd",
+              "DocumentIndex": 1,
+              "Title": "ShoppingListController.cs",
+              "DocumentMoniker": "C:\\Users\\Max\\Documents\\Projects\\paw-np\\Controllers\\ShoppingListController.cs",
+              "RelativeDocumentMoniker": "Controllers\\ShoppingListController.cs",
+              "ToolTip": "C:\\Users\\Max\\Documents\\Projects\\paw-np\\Controllers\\ShoppingListController.cs",
+              "RelativeToolTip": "Controllers\\ShoppingListController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2026-04-01T12:24:13.299Z",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-22T15:43:28.465Z",
               "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "IRepositoryBase.cs",
+              "DocumentMoniker": "C:\\Users\\Max\\Documents\\Projects\\paw-np\\Repositories\\Interfaces\\IRepositoryBase.cs",
+              "RelativeDocumentMoniker": "Repositories\\Interfaces\\IRepositoryBase.cs",
+              "ToolTip": "C:\\Users\\Max\\Documents\\Projects\\paw-np\\Repositories\\Interfaces\\IRepositoryBase.cs",
+              "RelativeToolTip": "Repositories\\Interfaces\\IRepositoryBase.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAjAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-22T15:42:13.528Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "IngredientRepository.cs",
+              "DocumentMoniker": "C:\\Users\\Max\\Documents\\Projects\\paw-np\\Repositories\\IngredientRepository.cs",
+              "RelativeDocumentMoniker": "Repositories\\IngredientRepository.cs",
+              "ToolTip": "C:\\Users\\Max\\Documents\\Projects\\paw-np\\Repositories\\IngredientRepository.cs",
+              "RelativeToolTip": "Repositories\\IngredientRepository.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-22T15:42:01.506Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "AuthViewModels.cs",
+              "DocumentMoniker": "C:\\Users\\Max\\Documents\\Projects\\paw-np\\Models\\ViewModels\\AuthViewModels.cs",
+              "RelativeDocumentMoniker": "Models\\ViewModels\\AuthViewModels.cs",
+              "ToolTip": "C:\\Users\\Max\\Documents\\Projects\\paw-np\\Models\\ViewModels\\AuthViewModels.cs",
+              "RelativeToolTip": "Models\\ViewModels\\AuthViewModels.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-22T15:37:57.331Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "NutriPlanDbContext.cs",
+              "DocumentMoniker": "C:\\Users\\Max\\Documents\\Projects\\paw-np\\Data\\NutriPlanDbContext.cs",
+              "RelativeDocumentMoniker": "Data\\NutriPlanDbContext.cs",
+              "ToolTip": "C:\\Users\\Max\\Documents\\Projects\\paw-np\\Data\\NutriPlanDbContext.cs",
+              "RelativeToolTip": "Data\\NutriPlanDbContext.cs",
+              "ViewState": "AgIAAIcAAAAAAAAAAAAiwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-22T15:06:55.362Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "ShoppingListFormViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\Max\\Documents\\Projects\\paw-np\\Models\\ViewModels\\ShoppingListFormViewModel.cs",
+              "RelativeDocumentMoniker": "Models\\ViewModels\\ShoppingListFormViewModel.cs",
+              "ToolTip": "C:\\Users\\Max\\Documents\\Projects\\paw-np\\Models\\ViewModels\\ShoppingListFormViewModel.cs",
+              "RelativeToolTip": "Models\\ViewModels\\ShoppingListFormViewModel.cs",
+              "ViewState": "AgIAAAcAAAAAAAAAAAAQwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-22T15:03:33.488Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "FoodJournal.cs",
+              "DocumentMoniker": "C:\\Users\\Max\\Documents\\Projects\\paw-np\\Models\\FoodJournal.cs",
+              "RelativeDocumentMoniker": "Models\\FoodJournal.cs",
+              "ToolTip": "C:\\Users\\Max\\Documents\\Projects\\paw-np\\Models\\FoodJournal.cs",
+              "RelativeToolTip": "Models\\FoodJournal.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-22T14:08:08.417Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "FoodJournalPageViewModels.cs",
+              "DocumentMoniker": "C:\\Users\\Max\\Documents\\Projects\\paw-np\\Models\\ViewModels\\FoodJournalPageViewModels.cs",
+              "RelativeDocumentMoniker": "Models\\ViewModels\\FoodJournalPageViewModels.cs",
+              "ToolTip": "C:\\Users\\Max\\Documents\\Projects\\paw-np\\Models\\ViewModels\\FoodJournalPageViewModels.cs",
+              "RelativeToolTip": "Models\\ViewModels\\FoodJournalPageViewModels.cs",
+              "ViewState": "AgIAAA0AAAAAAAAAAAA/wAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-22T14:07:54.94Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "FoodJournalFormViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\Max\\Documents\\Projects\\paw-np\\Models\\ViewModels\\FoodJournalFormViewModel.cs",
+              "RelativeDocumentMoniker": "Models\\ViewModels\\FoodJournalFormViewModel.cs",
+              "ToolTip": "C:\\Users\\Max\\Documents\\Projects\\paw-np\\Models\\ViewModels\\FoodJournalFormViewModel.cs",
+              "RelativeToolTip": "Models\\ViewModels\\FoodJournalFormViewModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-22T14:07:50.826Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "FoodJournalController.cs",
+              "DocumentMoniker": "C:\\Users\\Max\\Documents\\Projects\\paw-np\\Controllers\\FoodJournalController.cs",
+              "RelativeDocumentMoniker": "Controllers\\FoodJournalController.cs",
+              "ToolTip": "C:\\Users\\Max\\Documents\\Projects\\paw-np\\Controllers\\FoodJournalController.cs",
+              "RelativeToolTip": "Controllers\\FoodJournalController.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAAB4AAAAVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-22T14:07:20.494Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{74946827-37a0-11d2-a273-00c04f8ef4ff}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
             },
             {
               "$type": "Bookmark",
@@ -47,29 +216,28 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 12,
+              "Title": "RecipesController.cs",
+              "DocumentMoniker": "C:\\Users\\Max\\Documents\\Projects\\paw-np\\Controllers\\RecipesController.cs",
+              "RelativeDocumentMoniker": "Controllers\\RecipesController.cs",
+              "ToolTip": "C:\\Users\\Max\\Documents\\Projects\\paw-np\\Controllers\\RecipesController.cs",
+              "RelativeToolTip": "Controllers\\RecipesController.cs",
+              "ViewState": "AgIAAEQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-21T17:39:20.226Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
               "Title": "Ingredient.cs",
               "DocumentMoniker": "C:\\Users\\Max\\Documents\\Projects\\paw-np\\Models\\Ingredient.cs",
               "RelativeDocumentMoniker": "Models\\Ingredient.cs",
               "ToolTip": "C:\\Users\\Max\\Documents\\Projects\\paw-np\\Models\\Ingredient.cs",
               "RelativeToolTip": "Models\\Ingredient.cs",
-              "ViewState": "AgIAABoAAAAAAAAAAAAswAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-01T12:09:35.412Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "NutriPlanDbContext.cs",
-              "DocumentMoniker": "C:\\Users\\Max\\Documents\\Projects\\paw-np\\Data\\NutriPlanDbContext.cs",
-              "RelativeDocumentMoniker": "Data\\NutriPlanDbContext.cs",
-              "ToolTip": "C:\\Users\\Max\\Documents\\Projects\\paw-np\\Data\\NutriPlanDbContext.cs",
-              "RelativeToolTip": "Data\\NutriPlanDbContext.cs",
-              "ViewState": "AgIAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-01T12:07:44.865Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-21T17:35:29.237Z"
             },
             {
               "$type": "Document",
@@ -79,10 +247,40 @@
               "RelativeDocumentMoniker": "Controllers\\IngredientsController.cs",
               "ToolTip": "C:\\Users\\Max\\Documents\\Projects\\paw-np\\Controllers\\IngredientsController.cs",
               "RelativeToolTip": "Controllers\\IngredientsController.cs",
-              "ViewState": "AgIAAHUAAAAAAAAAAAAAABUAAAAbAAAAAAAAAA==",
+              "ViewState": "AgIAACAAAAAAAAAAAAAgwG4AAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-01T12:06:01.349Z",
+              "WhenOpened": "2026-04-20T16:57:17.33Z",
               "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\Max\\Documents\\Projects\\paw-np\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "C:\\Users\\Max\\Documents\\Projects\\paw-np\\Program.cs",
+              "RelativeToolTip": "Program.cs",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAAAB0AAAAvAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-20T16:25:09.737Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "HomeController.cs",
+              "DocumentMoniker": "C:\\Users\\Max\\Documents\\Projects\\paw-np\\Controllers\\HomeController.cs",
+              "RelativeDocumentMoniker": "Controllers\\HomeController.cs",
+              "ToolTip": "C:\\Users\\Max\\Documents\\Projects\\paw-np\\Controllers\\HomeController.cs",
+              "RelativeToolTip": "Controllers\\HomeController.cs",
+              "ViewState": "AgIAABkAAAAAAAAAAAAkwA8AAAASAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-20T16:24:06.122Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{c6f34f0d-7ae5-4f3a-be61-fe0c21ae9eb8}"
             }
           ]
         }

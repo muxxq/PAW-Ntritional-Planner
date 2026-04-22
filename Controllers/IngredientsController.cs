@@ -1,28 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using NutriPlan.Data;
 using NutriPlan.Models;
+using paw_np.Services.Interfaces;
 
 namespace paw_np.Controllers
 {
+    [Authorize]
     public class IngredientsController : Controller
     {
-        private readonly NutriPlanDbContext _context;
+        private readonly IIngredientService _ingredientService;
 
-        public IngredientsController(NutriPlanDbContext context)
+        public IngredientsController(IIngredientService ingredientService)
         {
-            _context = context;
+            _ingredientService = ingredientService;
         }
 
         // GET: Ingredients
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Ingredients.ToListAsync());
+            var ingredients = await _ingredientService.GetAllAsync(GetCurrentUserId());
+            return View(ingredients);
         }
 
         // GET: Ingredients/Details/5
@@ -33,8 +32,7 @@ namespace paw_np.Controllers
                 return NotFound();
             }
 
-            var ingredient = await _context.Ingredients
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var ingredient = await _ingredientService.GetByIdAsync(id.Value, GetCurrentUserId());
             if (ingredient == null)
             {
                 return NotFound();
@@ -58,10 +56,18 @@ namespace paw_np.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(ingredient);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                var result = await _ingredientService.CreateAsync(GetCurrentUserId(), ingredient);
+                if (result.Success)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+
+                if (!string.IsNullOrWhiteSpace(result.ErrorMessage))
+                {
+                    ModelState.AddModelError(string.Empty, result.ErrorMessage);
+                }
             }
+
             return View(ingredient);
         }
 
@@ -73,7 +79,7 @@ namespace paw_np.Controllers
                 return NotFound();
             }
 
-            var ingredient = await _context.Ingredients.FindAsync(id);
+            var ingredient = await _ingredientService.GetByIdAsync(id.Value, GetCurrentUserId());
             if (ingredient == null)
             {
                 return NotFound();
@@ -95,23 +101,21 @@ namespace paw_np.Controllers
 
             if (ModelState.IsValid)
             {
-                try
+                var result = await _ingredientService.UpdateAsync(id, GetCurrentUserId(), ingredient);
+                if (result.Success)
                 {
-                    _context.Update(ingredient);
-                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
                 }
-                catch (DbUpdateConcurrencyException)
+
+                if (result.ErrorMessage == "Ingredientul nu exista.")
                 {
-                    if (!IngredientExists(ingredient.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    return NotFound();
                 }
-                return RedirectToAction(nameof(Index));
+
+                if (!string.IsNullOrWhiteSpace(result.ErrorMessage))
+                {
+                    ModelState.AddModelError(string.Empty, result.ErrorMessage);
+                }
             }
             return View(ingredient);
         }
@@ -124,8 +128,7 @@ namespace paw_np.Controllers
                 return NotFound();
             }
 
-            var ingredient = await _context.Ingredients
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var ingredient = await _ingredientService.GetByIdAsync(id.Value, GetCurrentUserId());
             if (ingredient == null)
             {
                 return NotFound();
@@ -139,19 +142,19 @@ namespace paw_np.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var ingredient = await _context.Ingredients.FindAsync(id);
-            if (ingredient != null)
+            var result = await _ingredientService.DeleteAsync(id, GetCurrentUserId());
+            if (!result.Success && result.ErrorMessage == "Ingredientul nu exista.")
             {
-                _context.Ingredients.Remove(ingredient);
+                return NotFound();
             }
 
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool IngredientExists(int id)
+        private int GetCurrentUserId()
         {
-            return _context.Ingredients.Any(e => e.Id == id);
+            var value = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            return int.TryParse(value, out var userId) ? userId : 0;
         }
     }
 }

@@ -1,77 +1,38 @@
-@{ Layout = null; }
-<!DOCTYPE html>
-<html lang="en">
+@model paw_np.Models.ViewModels.LoginViewModel
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Log in</title>
-    <!-- Bootstrap 5 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Project styles (load after Bootstrap so it can override) -->
-    <link rel="stylesheet" href="assets/css/style.css">
-</head>
+@{
+    ViewData["Title"] = "Log in";
+}
 
-<body>
-    <!-- Navigation Bar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top shadow-sm">
-  <div class="container">
-    <a class="navbar-brand text-success" href="/Home/Index">NutriPlan</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
-        <li class="nav-item"><a class="nav-link" href="/Home/Index">Home</a></li>
-        <li class="nav-item"><a class="nav-link" href="/Home/Dashboard">Dashboard</a></li>
-        <li class="nav-item"><a class="nav-link" href="/Home/Meals">Meals</a></li>
-        <li class="nav-item"><a class="nav-link" href="/Home/Planner">Planner</a></li>
-        <li class="nav-item"><a class="nav-link" href="/Home/Recipes">Recipes</a></li>
-        <li class="nav-item"><a class="nav-link" href="/Home/ShoppingList">Shopping list</a></li>
-        <li class="nav-item"><a class="nav-link" href="/Home/Profile">Profile</a></li>
-      </ul>
-      <div class="d-flex">
-        <a href="/Home/Login" class="btn btn-outline-primary btn-sm me-1">Log in</a>
-        <a href="/Home/Register" class="btn btn-outline-secondary btn-sm">Sign up</a>
-      </div>
-    </div>
-  </div>
-</nav>
-    <!-- Login form -->
-    <main class="container" style = "padding-top: 80px; padding-bottom: 80px;">
-        <div class="card shadow-lg" style="max-width: 400px; margin:auto">
-            <form class="p-4">
-                <h3 class="mb-3 text-center">Log in</h3>
-                <div class="mb-4">
-                    <label for="email" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="email" placeholder="Enter your email">
-                </div>
-                <div class="mb-4">
-                    <label for="password" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="password" placeholder="Enter your password">
-                </div>
-                <div class="mb-4 form-check">
-                    <input type="checkbox" class="form-check-input" id="remember">
-                    <label class="form-check-label" for="remember">Remember me</label>
-                </div>
-                <button type="submit" class="btn btn-primary w-100">Log in</button>
-                <div class="text-center mt-3 small">
-                    <a href="/Home/Register">Don't have an account? Sign up</a>
-                </div>
-            </form>
+<div class="card shadow-lg" style="max-width: 420px; margin: auto;">
+    <form asp-action="Login" method="post" class="p-4">
+        @Html.AntiForgeryToken()
+        <h3 class="mb-3 text-center">Log in</h3>
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-2"></div>
+        <div class="mb-3">
+            <label asp-for="Email" class="form-label"></label>
+            <input asp-for="Email" class="form-control" />
+            <span asp-validation-for="Email" class="text-danger"></span>
         </div>
-    </main>
+        <div class="mb-3">
+            <label asp-for="Password" class="form-label"></label>
+            <input asp-for="Password" class="form-control" />
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+        <div class="mb-3 form-check">
+            <input asp-for="RememberMe" class="form-check-input" />
+            <label asp-for="RememberMe" class="form-check-label"></label>
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Log in</button>
+        <div class="text-center mt-3 small">
+            <a asp-action="Register">Don't have an account? Sign up</a>
+        </div>
+    </form>
+</div>
 
-    <!-- Footer -->
-    <footer class="bg-light py-3 fixed-bottom">
-  <div class="container text-center">
-    <span class="text-muted small">&copy; 2026 NutriPlan. All rights reserved.</span>
-  </div>
-</footer>
-
-    <!-- Bootstrap Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-
-</html>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
 

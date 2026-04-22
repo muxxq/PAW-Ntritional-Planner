@@ -33,7 +33,12 @@ namespace NutriPlan.Data
             //Ingredients
             modelBuilder.Entity<Ingredient>(entity =>
             {
-                entity.HasIndex(i => i.Name).IsUnique();
+                entity.HasOne(i => i.User)
+                      .WithMany(u => u.Ingredients)
+                      .HasForeignKey(i => i.UserId)
+                      .OnDelete(DeleteBehavior.Cascade);
+
+                entity.HasIndex(i => new { i.UserId, i.Name }).IsUnique();
             });
 
             //Recipes
@@ -146,11 +151,11 @@ namespace NutriPlan.Data
 
             //Seed data
             modelBuilder.Entity<Ingredient>().HasData(
-                new Ingredient { Id = 1, Name = "Ou",         CaloriesPer100g = 155, Proteins = 13, Carbs = 1.1m,  Fats = 11,  Sugars = 1.1m, Unit = "buc" },
-                new Ingredient { Id = 2, Name = "Piept pui",  CaloriesPer100g = 165, Proteins = 31, Carbs = 0,     Fats = 3.6m,Sugars = 0,    Unit = "g"   },
-                new Ingredient { Id = 3, Name = "Orez alb",   CaloriesPer100g = 130, Proteins = 2.7m, Carbs = 28,  Fats = 0.3m,Sugars = 0,    Unit = "g"   },
-                new Ingredient { Id = 4, Name = "Lapte 3.5%", CaloriesPer100g = 61,  Proteins = 3.2m, Carbs = 4.8m,Fats = 3.5m,Sugars = 4.8m, Unit = "ml"  },
-                new Ingredient { Id = 5, Name = "Banana",     CaloriesPer100g = 89,  Proteins = 1.1m, Carbs = 23,  Fats = 0.3m,Sugars = 12,   Unit = "buc" }
+                new Ingredient { Id = 1, UserId = 1, Name = "Ou",         CaloriesPer100g = 155, Proteins = 13, Carbs = 1.1m,  Fats = 11,  Sugars = 1.1m, Unit = "buc" },
+                new Ingredient { Id = 2, UserId = 1, Name = "Piept pui",  CaloriesPer100g = 165, Proteins = 31, Carbs = 0,     Fats = 3.6m,Sugars = 0,    Unit = "g"   },
+                new Ingredient { Id = 3, UserId = 1, Name = "Orez alb",   CaloriesPer100g = 130, Proteins = 2.7m, Carbs = 28,  Fats = 0.3m,Sugars = 0,    Unit = "g"   },
+                new Ingredient { Id = 4, UserId = 1, Name = "Lapte 3.5%", CaloriesPer100g = 61,  Proteins = 3.2m, Carbs = 4.8m,Fats = 3.5m,Sugars = 4.8m, Unit = "ml"  },
+                new Ingredient { Id = 5, UserId = 1, Name = "Banana",     CaloriesPer100g = 89,  Proteins = 1.1m, Carbs = 23,  Fats = 0.3m,Sugars = 12,   Unit = "buc" }
             );
         }
     }

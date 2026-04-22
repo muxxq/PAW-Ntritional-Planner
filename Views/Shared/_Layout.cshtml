@@ -10,23 +10,35 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top shadow-sm">
         <div class="container">
-            <a class="navbar-brand text-success" href="/Home/Index">NutriPlan</a>
+            <a class="navbar-brand text-success" asp-controller="Home" asp-action="Index">NutriPlan</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
-                    <li class="nav-item"><a class="nav-link" href="/Home/Index">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/Home/Dashboard">Dashboard</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/Home/Meals">Meals</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/Home/Planner">Planner</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/Home/Recipes">Recipes</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/Home/ShoppingList">Shopping List</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/Home/Profile">Profile</a></li>
+                    <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="Index">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="Dashboard">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link" asp-controller="FoodJournal" asp-action="Index">Meals</a></li>
+                    <li class="nav-item"><a class="nav-link" asp-controller="Ingredients" asp-action="Index">Ingredients</a></li>
+                    <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="Planner">Planner</a></li>
+                    <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="Recipes">Recipes</a></li>
+                    <li class="nav-item"><a class="nav-link" asp-controller="ShoppingList" asp-action="Index">Shopping List</a></li>
+                    <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="Profile">Profile</a></li>
                 </ul>
                 <div class="d-flex">
-                    <a href="/Home/Login" class="btn btn-outline-primary btn-sm me-1">Log in</a>
-                    <a href="/Home/Register" class="btn btn-outline-secondary btn-sm">Sign up</a>
+                    @if (User.Identity?.IsAuthenticated == true)
+                    {
+                        <span class="navbar-text me-2">Hi, @User.Identity.Name</span>
+                        <form asp-controller="Home" asp-action="Logout" method="post">
+                            @Html.AntiForgeryToken()
+                            <button type="submit" class="btn btn-outline-danger btn-sm">Log out</button>
+                        </form>
+                    }
+                    else
+                    {
+                        <a asp-controller="Home" asp-action="Login" class="btn btn-outline-primary btn-sm me-1">Log in</a>
+                        <a asp-controller="Home" asp-action="Register" class="btn btn-outline-secondary btn-sm">Sign up</a>
+                    }
                 </div>
             </div>
         </div>

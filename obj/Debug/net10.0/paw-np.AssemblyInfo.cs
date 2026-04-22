@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("paw-np")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+73056ced7331ceeb91b0ff8e43e24d4b26a78bf8")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+949a2eef556a136dff2469ca338e80d338cf45d0")]
 [assembly: System.Reflection.AssemblyProductAttribute("paw-np")]
 [assembly: System.Reflection.AssemblyTitleAttribute("paw-np")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

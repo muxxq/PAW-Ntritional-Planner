@@ -20,6 +20,7 @@ namespace NutriPlan.Models
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
         // Navigation properties
+        public ICollection<Ingredient> Ingredients { get; set; } = new List<Ingredient>();
         public ICollection<Recipe> Recipes { get; set; } = new List<Recipe>();
         public ICollection<FoodJournal> FoodJournals { get; set; } = new List<FoodJournal>();
         public ICollection<MealPlanner> MealPlanners { get; set; } = new List<MealPlanner>();

@@ -1,0 +1,60 @@
+@model paw_np.Models.ViewModels.ShoppingListItemFormViewModel
+
+@{
+    ViewData["Title"] = "Edit Shopping List Item";
+}
+
+<h1 class="h3 mb-3">Edit Item</h1>
+
+<div class="card">
+    <div class="card-body">
+        <form asp-action="EditItem" method="post">
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="ShoppingListId" />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="mb-3">
+                <label asp-for="IngredientId" class="form-label"></label>
+                <select asp-for="IngredientId" class="form-select">
+                    <option value="">-- Select ingredient --</option>
+                    @foreach (var ingredient in Model.AvailableIngredients)
+                    {
+                        <option value="@ingredient.Id">@ingredient.Name</option>
+                    }
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="CustomItemName" class="form-label"></label>
+                <input asp-for="CustomItemName" class="form-control" />
+                <span asp-validation-for="CustomItemName" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Quantity" class="form-label"></label>
+                <input asp-for="Quantity" class="form-control" />
+                <span asp-validation-for="Quantity" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Unit" class="form-label"></label>
+                <input asp-for="Unit" class="form-control" />
+                <span asp-validation-for="Unit" class="text-danger"></span>
+            </div>
+
+            <div class="form-check mb-3">
+                <input asp-for="IsChecked" class="form-check-input" />
+                <label asp-for="IsChecked" class="form-check-label"></label>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Save</button>
+            <a asp-action="Details" asp-route-id="@Model.ShoppingListId" class="btn btn-link">Back to Details</a>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
