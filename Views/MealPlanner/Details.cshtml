@@ -1,0 +1,111 @@
+@model paw_np.Models.ViewModels.MealPlannerDetailsViewModel
+@{
+    ViewData["Title"] = $"Planner - {Model.Planner.PlanDate:dd MMM yyyy} ({Model.Planner.MealType})";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>@Model.Planner.PlanDate.ToString("dd MMM yyyy") — @Model.Planner.MealType</h2>
+    <a asp-action="Index" class="btn btn-outline-secondary">Back to List</a>
+</div>
+
+@if (!string.IsNullOrWhiteSpace(Model.Planner.Notes))
+{
+    <div class="alert alert-light">
+        <strong>Notes:</strong> @Model.Planner.Notes
+    </div>
+}
+
+<!-- Planned Items -->
+<div class="card mb-4">
+    <div class="card-header">Planned Foods</div>
+    <div class="card-body p-0">
+        @if (Model.Items.Any())
+        {
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Food / Recipe</th>
+                            <th class="text-center">Quantity</th>
+                            <th class="text-end pe-3">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Items)
+                        {
+                            <tr>
+                                <td>
+                                    <strong>@item.DisplayName</strong>
+                                    <span class="badge bg-light text-dark ms-2">
+                                        @(item.RecipeId.HasValue ? "Recipe" : "Ingredient")
+                                    </span>
+                                </td>
+                                <td class="text-center">@item.Quantity</td>
+                                <td class="text-end pe-3">
+                                    <form asp-action="DeleteItem" method="post" style="display:inline;">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="id" value="@item.Id" />
+                                        <input type="hidden" name="plannerId" value="@item.PlannerId" />
+                                        <button type="submit" class="btn btn-sm btn-outline-danger"
+                                            onclick="return confirm('Remove this item?')">Remove</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <div class="p-3 text-muted">No items planned yet.</div>
+        }
+    </div>
+</div>
+
+<!-- Add Item Form -->
+<div class="card">
+    <div class="card-header">Add Item to Plan</div>
+    <div class="card-body">
+        <form asp-action="AddItem" method="post">
+            @Html.AntiForgeryToken()
+            <div asp-validation-summary="All" class="text-danger mb-3"></div>
+            <input type="hidden" asp-for="NewItemForm.PlannerId" />
+
+            <div class="row g-3 align-items-end">
+                <div class="col-md-4">
+                    <label asp-for="NewItemForm.RecipeId" class="form-label">Recipe (optional)</label>
+                    <select asp-for="NewItemForm.RecipeId" class="form-select">
+                        <option value="">-- None --</option>
+                        @foreach (var recipe in Model.NewItemForm.AvailableRecipes)
+                        {
+                            <option value="@recipe.Id">@recipe.Name</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label asp-for="NewItemForm.IngredientId" class="form-label">Ingredient (optional)</label>
+                    <select asp-for="NewItemForm.IngredientId" class="form-select">
+                        <option value="">-- None --</option>
+                        @foreach (var ingredient in Model.NewItemForm.AvailableIngredients)
+                        {
+                            <option value="@ingredient.Id">@ingredient.Name</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label asp-for="NewItemForm.Quantity" class="form-label">Quantity</label>
+                    <input asp-for="NewItemForm.Quantity" class="form-control" />
+                </div>
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-primary w-100">Add</button>
+                </div>
+            </div>
+            <div class="form-text mt-2">Choose either a recipe or an ingredient, not both.</div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

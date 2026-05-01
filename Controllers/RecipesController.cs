@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using NutriPlan.Models;
@@ -38,6 +38,12 @@ namespace paw_np.Controllers
             {
                 return NotFound();
             }
+
+            var ingredients = await _ingredientService.GetAllAsync(GetCurrentUserId());
+            ViewBag.AvailableIngredients = ingredients
+                .OrderBy(i => i.Name)
+                .Select(i => new paw_np.Models.ViewModels.IngredientOptionViewModel { Id = i.Id, Name = i.Name })
+                .ToList();
 
             return View(recipe);
         }

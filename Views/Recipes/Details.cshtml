@@ -1,66 +1,43 @@
-﻿@model NutriPlan.Models.Recipe
+@model NutriPlan.Models.Recipe
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = Model.Name;
+    var availableIngredients = ViewBag.AvailableIngredients as List<paw_np.Models.ViewModels.IngredientOptionViewModel> ?? new();
 }
 
-<h1>Details</h1>
+<h2 class="mb-4">@Model.Name</h2>
 
 @if (TempData["Error"] is not null)
 {
     <div class="alert alert-danger">@TempData["Error"]</div>
 }
 
-<div>
-    <h4>Recipe</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Servings)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Servings)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PrepTimeMin)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PrepTimeMin)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CookTimeMin)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CookTimeMin)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.TotalKcal)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.TotalKcal)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CreatedAt)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CreatedAt)
-        </dd>
-    </dl>
-</div>
+<div class="card mb-4">
+    <div class="card-body">
+        <dl class="row mb-0">
+            <dt class="col-sm-3">Name</dt>
+            <dd class="col-sm-9">@Model.Name</dd>
 
-<hr />
+            <dt class="col-sm-3">Description</dt>
+            <dd class="col-sm-9">@(Model.Description ?? "-")</dd>
+
+            <dt class="col-sm-3">Servings</dt>
+            <dd class="col-sm-9">@Model.Servings</dd>
+
+            <dt class="col-sm-3">Prep Time</dt>
+            <dd class="col-sm-9">@Model.PrepTimeMin min</dd>
+
+            <dt class="col-sm-3">Cook Time</dt>
+            <dd class="col-sm-9">@Model.CookTimeMin min</dd>
+
+            <dt class="col-sm-3">Total Kcal</dt>
+            <dd class="col-sm-9">@Model.TotalKcal</dd>
+
+            <dt class="col-sm-3">Created</dt>
+            <dd class="col-sm-9">@Model.CreatedAt.ToString("dd MMM yyyy")</dd>
+        </dl>
+    </div>
+</div>
 
 <h4>Ingredients</h4>
 
@@ -70,64 +47,72 @@
 }
 else
 {
-    <table class="table table-striped align-middle">
-        <thead>
-            <tr>
-                <th>Ingredient</th>
-                <th>Quantity</th>
-                <th class="text-end">Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        @foreach (var ri in Model.RecipeIngredients)
-        {
-            <tr>
-                <td>@ri.Ingredient.Name</td>
-                <td>@ri.Quantity @ri.Unit</td>
-                <td class="text-end">
-                    <form asp-action="DeleteIngredient" method="post" class="d-inline">
-                        @Html.AntiForgeryToken()
-                        <input type="hidden" name="id" value="@ri.Id" />
-                        <input type="hidden" name="recipeId" value="@Model.Id" />
-                        <button type="submit" class="btn btn-sm btn-outline-danger">Remove</button>
-                    </form>
-                </td>
-            </tr>
-        }
-        </tbody>
-    </table>
+    <div class="card mb-4">
+        <div class="card-body p-0">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>Ingredient</th>
+                        <th class="text-center">Quantity</th>
+                        <th class="text-end pe-3">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach (var ri in Model.RecipeIngredients)
+                {
+                    <tr>
+                        <td><strong>@ri.Ingredient.Name</strong></td>
+                        <td class="text-center">@ri.Quantity @ri.Unit</td>
+                        <td class="text-end pe-3">
+                            <form asp-action="DeleteIngredient" method="post" class="d-inline">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="id" value="@ri.Id" />
+                                <input type="hidden" name="recipeId" value="@Model.Id" />
+                                <button type="submit" class="btn btn-sm btn-outline-danger"
+                                    onclick="return confirm('Remove this ingredient?')">Remove</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
 }
 
 <div class="card mb-4">
-    <div class="card-header">Add ingredient</div>
+    <div class="card-header">Add Ingredient</div>
     <div class="card-body">
-        <form asp-action="AddIngredient" method="post" class="row g-3">
+        <form asp-action="AddIngredient" method="post" class="row g-3 align-items-end">
             @Html.AntiForgeryToken()
             <input type="hidden" name="recipeId" value="@Model.Id" />
 
-            <div class="col-md-6">
-                <label class="form-label">Ingredient ID</label>
-                <input name="ingredientId" class="form-control" type="number" />
+            <div class="col-md-5">
+                <label class="form-label">Ingredient</label>
+                <select name="ingredientId" class="form-select" required>
+                    <option value="">-- Select ingredient --</option>
+                    @foreach (var ingredient in availableIngredients)
+                    {
+                        <option value="@ingredient.Id">@ingredient.Name</option>
+                    }
+                </select>
             </div>
             <div class="col-md-3">
                 <label class="form-label">Quantity</label>
-                <input name="quantity" class="form-control" type="number" step="0.01" value="1" />
+                <input name="quantity" class="form-control" type="number" step="0.01" min="0.01" value="1" required />
             </div>
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <label class="form-label">Unit</label>
                 <input name="unit" class="form-control" value="g" />
             </div>
-            <div class="col-12">
-                <button type="submit" class="btn btn-primary">Add</button>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary w-100">Add</button>
             </div>
         </form>
-        <div class="form-text">
-            Temporary: use Ingredient ID. Next step: dropdown with your ingredients.
-        </div>
     </div>
 </div>
 
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-warning">Edit</a>
+    <a asp-action="Index" class="btn btn-outline-secondary">Back to List</a>
 </div>

@@ -22,14 +22,20 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.LoginPath = "/Home/Login";
         options.AccessDeniedPath = "/Home/Login";
     });
+
+// Repositories
 builder.Services.AddScoped<IIngredientRepository, IngredientRepository>();
 builder.Services.AddScoped<IShoppingListRepository, ShoppingListRepository>();
 builder.Services.AddScoped<IFoodJournalRepository, FoodJournalRepository>();
 builder.Services.AddScoped<IRecipeRepository, RecipeRepository>();
+builder.Services.AddScoped<IMealPlannerRepository, MealPlannerRepository>();
+
+// Services
 builder.Services.AddScoped<IIngredientService, IngredientService>();
 builder.Services.AddScoped<IShoppingListService, ShoppingListService>();
 builder.Services.AddScoped<IFoodJournalService, FoodJournalService>();
 builder.Services.AddScoped<IRecipeService, RecipeService>();
+builder.Services.AddScoped<IMealPlannerService, MealPlannerService>();
 
 var app = builder.Build();
 
@@ -59,6 +65,16 @@ app.MapControllerRoute(
     name: "meals",
     pattern: "meals/{action=Index}/{id?}",
     defaults: new { controller = "FoodJournal" });
+
+app.MapControllerRoute(
+    name: "planner",
+    pattern: "planner/{action=Index}/{id?}",
+    defaults: new { controller = "MealPlanner" });
+
+app.MapControllerRoute(
+    name: "recipes",
+    pattern: "recipes/{action=Index}/{id?}",
+    defaults: new { controller = "Recipes" });
 
 app.MapControllerRoute(
     name: "default",

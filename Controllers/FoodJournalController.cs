@@ -12,13 +12,16 @@ namespace paw_np.Controllers
     {
         private readonly IFoodJournalService _foodJournalService;
         private readonly IIngredientService _ingredientService;
+        private readonly IRecipeService _recipeService;
 
         public FoodJournalController(
             IFoodJournalService foodJournalService,
-            IIngredientService ingredientService)
+            IIngredientService ingredientService,
+            IRecipeService recipeService)
         {
             _foodJournalService = foodJournalService;
             _ingredientService = ingredientService;
+            _recipeService = recipeService;
         }
 
         public async Task<IActionResult> Index()
@@ -309,7 +312,7 @@ namespace paw_np.Controllers
         {
             var userId = GetCurrentUserId();
             var ingredients = await _ingredientService.GetAllAsync(userId);
-            // TODO: wire recipes list via IRecipeService once implemented.
+            var recipes = await _recipeService.GetAllAsync(userId);
 
             return new FoodJournalDetailsViewModel
             {
@@ -341,7 +344,10 @@ namespace paw_np.Controllers
                     JournalId = journal.Id,
                     LoggedAt = DateTime.UtcNow
                 },
-                AvailableRecipes = new List<RecipeOptionViewModel>(),
+                AvailableRecipes = recipes
+                    .OrderBy(r => r.Name)
+                    .Select(r => new RecipeOptionViewModel { Id = r.Id, Name = r.Name })
+                    .ToList(),
                 AvailableIngredients = ingredients
                     .OrderBy(i => i.Name)
                     .Select(i => new IngredientOptionViewModel { Id = i.Id, Name = i.Name })

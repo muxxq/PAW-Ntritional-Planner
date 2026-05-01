@@ -649,4 +649,3 @@ C:\Users\Max\Documents\Projects\paw-np\bin\Debug\net10.0\refs\System.Xml.XmlSeri
 C:\Users\Max\Documents\Projects\paw-np\bin\Debug\net10.0\refs\System.Xml.XPath.dll
 C:\Users\Max\Documents\Projects\paw-np\bin\Debug\net10.0\refs\System.Xml.XPath.XDocument.dll
 C:\Users\Max\Documents\Projects\paw-np\bin\Debug\net10.0\refs\WindowsBase.dll
-C:\Users\Max\Documents\Projects\paw-np\obj\Debug\net10.0\staticwebassets.upToDateCheck.txt
