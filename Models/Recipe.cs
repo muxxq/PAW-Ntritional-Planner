@@ -25,6 +25,18 @@ namespace NutriPlan.Models
         [Column(TypeName = "decimal(10,2)")]
         public decimal TotalKcal { get; set; }
 
+        [Column(TypeName = "decimal(10,2)")]
+        public decimal TotalProteins { get; set; }
+
+        [Column(TypeName = "decimal(10,2)")]
+        public decimal TotalCarbs { get; set; }
+
+        [Column(TypeName = "decimal(10,2)")]
+        public decimal TotalFats { get; set; }
+
+        [MaxLength(2000)]
+        public string? Instructions { get; set; }
+
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
         // Navigation properties

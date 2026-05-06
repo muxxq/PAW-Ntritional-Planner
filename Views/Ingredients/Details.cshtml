@@ -1,60 +1,54 @@
-﻿@model NutriPlan.Models.Ingredient
+@model NutriPlan.Models.Ingredient
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Ingredient Details";
 }
 
-<h1>Details</h1>
-
-<div>
-    <h4>Ingredient</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CaloriesPer100g)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CaloriesPer100g)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Proteins)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Proteins)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Carbs)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Carbs)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Fats)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Fats)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Sugars)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Sugars)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Unit)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Unit)
-        </dd>
-    </dl>
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h3 mb-0">Ingredient Details</h1>
+    <div>
+        <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-outline-secondary">Edit</a>
+        <a asp-action="Index" class="btn btn-outline-primary">Back to List</a>
+    </div>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card shadow-sm">
+            <div class="card-header bg-light">
+                <h4 class="mb-0 fw-bold">@Model.Name</h4>
+            </div>
+            <div class="card-body">
+                <dl class="row mb-0">
+                    <dt class="col-sm-4 text-muted">Default Unit</dt>
+                    <dd class="col-sm-8 fw-bold">@Model.Unit</dd>
+
+                    <dt class="col-sm-4 text-muted mt-3">Kcal per 100@(Model.Unit)</dt>
+                    <dd class="col-sm-8 mt-3"><span class="badge bg-primary fs-6">@Math.Round(Model.CaloriesPer100g, 1) kcal</span></dd>
+                </dl>
+                
+                <hr class="my-4" />
+                <h5 class="text-muted mb-3">Macronutrients (per 100@(Model.Unit))</h5>
+                
+                <div class="row text-center">
+                    <div class="col-3">
+                        <div class="text-success fw-bold fs-5">@Math.Round(Model.Proteins, 1)g</div>
+                        <div class="small text-muted">Proteins</div>
+                    </div>
+                    <div class="col-3">
+                        <div class="text-warning text-dark fw-bold fs-5">@Math.Round(Model.Carbs, 1)g</div>
+                        <div class="small text-muted">Carbs</div>
+                    </div>
+                    <div class="col-3">
+                        <div class="text-danger fw-bold fs-5">@Math.Round(Model.Fats, 1)g</div>
+                        <div class="small text-muted">Fats</div>
+                    </div>
+                    <div class="col-3">
+                        <div class="text-info text-dark fw-bold fs-5">@Math.Round(Model.Sugars, 1)g</div>
+                        <div class="small text-muted">Sugars</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

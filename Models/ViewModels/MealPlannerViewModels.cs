@@ -52,9 +52,18 @@ namespace paw_np.Models.ViewModels
         public int ItemsCount { get; set; }
     }
 
+    public class WeeklyCalendarViewModel
+    {
+        public List<DateOnly> Days { get; set; } = new();
+        public List<string> MealTypes { get; set; } = new() { "Breakfast", "Lunch", "Dinner", "Snack" };
+        
+        // Key: "yyyy-MM-dd_MealType"
+        public Dictionary<string, MealPlannerListItemViewModel> CellData { get; set; } = new();
+    }
+
     public class MealPlannerIndexViewModel
     {
-        public List<MealPlannerListItemViewModel> Planners { get; set; } = new();
+        public WeeklyCalendarViewModel Calendar { get; set; } = new();
         public MealPlannerFormViewModel CreateForm { get; set; } = new();
     }
 

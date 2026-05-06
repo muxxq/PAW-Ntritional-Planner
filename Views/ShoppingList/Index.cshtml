@@ -4,48 +4,69 @@
     ViewData["Title"] = "Shopping Lists";
 }
 
-<div class="d-flex justify-content-between align-items-center mb-3">
+<div class="d-flex justify-content-between align-items-center mb-4">
     <h1 class="h3 mb-0">Shopping Lists</h1>
-    <a asp-action="Create" class="btn btn-success">Create New List</a>
+    <a asp-action="Create" class="btn btn-primary">+ Create New List</a>
 </div>
 
-@if (!Model.ShoppingLists.Any())
-{
-    <div class="alert alert-info">No shopping lists yet.</div>
-}
-else
-{
-    <table class="table table-striped align-middle">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>User ID</th>
-                <th>Created</th>
-                <th>Items</th>
-                <th class="text-end">Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        @foreach (var list in Model.ShoppingLists)
-        {
-            <tr>
-                <td>@list.Name</td>
-                <td>@list.UserId</td>
-                <td>@list.CreatedAt.ToLocalTime().ToString("yyyy-MM-dd HH:mm")</td>
-                <td>@list.CheckedItemCount / @list.ItemCount checked</td>
-                <td class="text-end">
-                    <a asp-action="Details" asp-route-id="@list.Id" class="btn btn-sm btn-outline-primary">Details</a>
-                    <a asp-action="Edit" asp-route-id="@list.Id" class="btn btn-sm btn-outline-secondary">Edit</a>
-                    <a asp-action="Delete" asp-route-id="@list.Id" class="btn btn-sm btn-outline-danger">Delete</a>
-                </td>
-            </tr>
-        }
-        </tbody>
-    </table>
-}
+<div class="card shadow-sm">
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>Name</th>
+                        <th>Created</th>
+                        <th class="text-center">Items</th>
+                        <th class="text-center">Progress</th>
+                        <th class="text-end pe-3">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (!Model.ShoppingLists.Any())
+                    {
+                        <tr>
+                            <td colspan="5" class="text-center text-muted py-4">No shopping lists found. Start by creating one!</td>
+                        </tr>
+                    }
+                    else
+                    {
+                        @foreach (var list in Model.ShoppingLists)
+                        {
+                            var progress = list.ItemCount > 0 ? (int)Math.Round((double)list.CheckedItemCount / list.ItemCount * 100) : 0;
+                            var bgClass = progress == 100 ? "bg-success" : "bg-primary";
+                            
+                            <tr>
+                                <td class="fw-bold">
+                                    <i class="bi bi-cart3 text-muted me-2"></i>
+                                    @list.Name
+                                </td>
+                                <td>
+                                    <span class="small text-muted">@list.CreatedAt.ToLocalTime().ToString("MMM dd, yyyy HH:mm")</span>
+                                </td>
+                                <td class="text-center">@list.CheckedItemCount / @list.ItemCount checked</td>
+                                <td class="text-center" style="width: 200px;">
+                                    <div class="progress" style="height: 10px;">
+                                        <div class="progress-bar @bgClass" role="progressbar" style="width: @progress%;" aria-valuenow="@progress" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <small class="text-muted">@progress%</small>
+                                </td>
+                                <td class="text-end pe-3">
+                                    <div class="btn-group" role="group">
+                                        <a asp-action="Details" asp-route-id="@list.Id" class="btn btn-sm btn-outline-info">Details</a>
+                                        <a asp-action="Edit" asp-route-id="@list.Id" class="btn btn-sm btn-outline-secondary">Edit</a>
+                                        <a asp-action="Delete" asp-route-id="@list.Id" class="btn btn-sm btn-outline-danger">Delete</a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 
 @section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
+    <partial name="_ValidationScriptsPartial" />
 }

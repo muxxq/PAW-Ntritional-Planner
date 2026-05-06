@@ -27,25 +27,35 @@ namespace paw_np.Controllers
         // GET: MealPlanner
         public async Task<IActionResult> Index()
         {
-            var planners = await _mealPlannerService.GetAllAsync(GetCurrentUserId());
+            var today = DateOnly.FromDateTime(DateTime.Today);
+            var planners = await _mealPlannerService.GetWeekAsync(GetCurrentUserId(), today);
+            
             var model = new MealPlannerIndexViewModel
             {
-                Planners = planners
-                    .Select(mp => new MealPlannerListItemViewModel
-                    {
-                        Id = mp.Id,
-                        UserId = mp.UserId,
-                        PlanDate = mp.PlanDate,
-                        MealType = mp.MealType,
-                        Notes = mp.Notes,
-                        ItemsCount = mp.PlannerItems.Count
-                    })
-                    .ToList(),
                 CreateForm = new MealPlannerFormViewModel
                 {
-                    PlanDate = DateOnly.FromDateTime(DateTime.Today)
+                    PlanDate = today
                 }
             };
+
+            for (int i = 0; i < 7; i++)
+            {
+                model.Calendar.Days.Add(today.AddDays(i));
+            }
+
+            foreach (var mp in planners)
+            {
+                var key = $"{mp.PlanDate:yyyy-MM-dd}_{mp.MealType}";
+                model.Calendar.CellData[key] = new MealPlannerListItemViewModel
+                {
+                    Id = mp.Id,
+                    UserId = mp.UserId,
+                    PlanDate = mp.PlanDate,
+                    MealType = mp.MealType,
+                    Notes = mp.Notes,
+                    ItemsCount = mp.PlannerItems.Count
+                };
+            }
 
             return View(model);
         }

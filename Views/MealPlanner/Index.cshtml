@@ -5,99 +5,60 @@
 
 <h2 class="mb-4">Meal Planner</h2>
 
-<!-- Create Form -->
+<!-- Planner Calendar -->
 <div class="card mb-4">
-    <div class="card-header">Add New Meal Slot</div>
-    <div class="card-body">
-        <form asp-controller="MealPlanner" asp-action="Create" method="post">
-            @Html.AntiForgeryToken()
-            <div asp-validation-summary="All" class="text-danger mb-3"></div>
-            <div class="row g-3 align-items-end">
-                <div class="col-md-3">
-                    <label asp-for="CreateForm.PlanDate" class="form-label"></label>
-                    <input asp-for="CreateForm.PlanDate" class="form-control" />
-                    <span asp-validation-for="CreateForm.PlanDate" class="text-danger"></span>
-                </div>
-                <div class="col-md-3">
-                    <label asp-for="CreateForm.MealType" class="form-label"></label>
-                    <select asp-for="CreateForm.MealType" class="form-select">
-                        <option value="Breakfast">Breakfast</option>
-                        <option value="Lunch">Lunch</option>
-                        <option value="Dinner">Dinner</option>
-                        <option value="Snack">Snack</option>
-                    </select>
-                    <span asp-validation-for="CreateForm.MealType" class="text-danger"></span>
-                </div>
-                <div class="col-md-4">
-                    <label asp-for="CreateForm.Notes" class="form-label"></label>
-                    <input asp-for="CreateForm.Notes" class="form-control" placeholder="Optional notes" />
-                </div>
-                <div class="col-md-2">
-                    <button type="submit" class="btn btn-primary w-100">Add</button>
-                </div>
-            </div>
-        </form>
+    <div class="card-header bg-success text-white">Weekly Meal Plan</div>
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-bordered text-center align-middle mb-0" style="table-layout: fixed; min-width: 800px;">
+                <thead class="table-light">
+                    <tr>
+                        <th style="width: 100px;">Meal / Day</th>
+                        @foreach (var day in Model.Calendar.Days)
+                        {
+                            <th>
+                                <div>@day.ToString("ddd")</div>
+                                <div class="small text-muted">@day.ToString("MMM dd")</div>
+                            </th>
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var mealType in Model.Calendar.MealTypes)
+                    {
+                        <tr>
+                            <th scope="row" class="bg-light align-middle">@mealType</th>
+                            @foreach (var day in Model.Calendar.Days)
+                            {
+                                var key = $"{day:yyyy-MM-dd}_{mealType}";
+                                <td>
+                                    @if (Model.Calendar.CellData.TryGetValue(key, out var cell))
+                                    {
+                                        <div class="p-2 border rounded bg-white shadow-sm mb-1">
+                                            <div class="fw-bold text-success mb-1">Planned</div>
+                                            <div class="small text-muted mb-2">@cell.ItemsCount items</div>
+                                            <a asp-action="Details" asp-route-id="@cell.Id" class="btn btn-sm btn-outline-info w-100 mb-1">View / Edit</a>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <form asp-controller="MealPlanner" asp-action="Create" method="post">
+                                            @Html.AntiForgeryToken()
+                                            <input type="hidden" name="PlanDate" value="@day.ToString("yyyy-MM-dd")" />
+                                            <input type="hidden" name="MealType" value="@mealType" />
+                                            <button type="submit" class="btn btn-sm btn-outline-secondary w-100">+ Add</button>
+                                        </form>
+                                    }
+                                </td>
+                            }
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 
-<!-- Planner List -->
-@if (Model.Planners.Any())
-{
-    <div class="card">
-        <div class="card-body p-0">
-            <div class="table-responsive">
-                <table class="table table-hover align-middle mb-0">
-                    <thead class="table-light">
-                        <tr>
-                            <th>Date</th>
-                            <th>Meal Type</th>
-                            <th class="text-center">Items</th>
-                            <th>Notes</th>
-                            <th class="text-end pe-3">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var planner in Model.Planners)
-                        {
-                            <tr>
-                                <td>@planner.PlanDate.ToString("dd MMM yyyy")</td>
-                                <td>
-                                    <span class="badge @GetMealBadgeClass(planner.MealType)">@planner.MealType</span>
-                                </td>
-                                <td class="text-center">@planner.ItemsCount</td>
-                                <td class="text-muted">@(planner.Notes ?? "-")</td>
-                                <td class="text-end pe-3">
-                                    <a asp-action="Details" asp-route-id="@planner.Id" class="btn btn-sm btn-outline-info">Details</a>
-                                    <a asp-action="Edit" asp-route-id="@planner.Id" class="btn btn-sm btn-outline-warning">Edit</a>
-                                    <a asp-action="Delete" asp-route-id="@planner.Id" class="btn btn-sm btn-outline-danger">Delete</a>
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-}
-else
-{
-    <div class="alert alert-info">No meal plans yet. Use the form above to create your first meal slot.</div>
-}
-
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
-}
-
-@functions {
-    string GetMealBadgeClass(string mealType)
-    {
-        return mealType switch
-        {
-            "Breakfast" => "bg-warning text-dark",
-            "Lunch" => "bg-success",
-            "Dinner" => "bg-info text-dark",
-            "Snack" => "bg-secondary",
-            _ => "bg-primary"
-        };
-    }
 }

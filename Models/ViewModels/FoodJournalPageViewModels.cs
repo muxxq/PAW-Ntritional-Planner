@@ -4,6 +4,8 @@ namespace paw_np.Models.ViewModels
     {
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;
+        public decimal TotalKcal { get; set; }
+        public int Servings { get; set; } = 1;
     }
 
     public class FoodJournalListItemViewModel

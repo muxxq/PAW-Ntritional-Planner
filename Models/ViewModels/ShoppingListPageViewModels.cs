@@ -4,6 +4,7 @@ namespace paw_np.Models.ViewModels
     {
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;
+        public decimal CaloriesPer100g { get; set; }
     }
 
     public class ShoppingListListItemViewModel

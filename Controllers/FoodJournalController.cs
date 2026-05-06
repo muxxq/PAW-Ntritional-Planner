@@ -202,13 +202,41 @@ namespace paw_np.Controllers
                 return View(nameof(Details), detailsModel);
             }
 
+            // Auto-calculate KcalConsumed
+            decimal kcal = 0;
+            if (entryForm.RecipeId.HasValue && entryForm.RecipeId > 0)
+            {
+                // Clear ingredient if recipe was selected
+                entryForm.IngredientId = null;
+
+                var recipe = await _recipeService.GetByIdAsync(entryForm.RecipeId.Value, GetCurrentUserId());
+                if (recipe != null)
+                {
+                    // kcal per serving * quantity (servings)
+                    var kcalPerServing = recipe.Servings > 0 ? recipe.TotalKcal / recipe.Servings : recipe.TotalKcal;
+                    kcal = kcalPerServing * entryForm.Quantity;
+                }
+            }
+            else if (entryForm.IngredientId.HasValue && entryForm.IngredientId > 0)
+            {
+                // Clear recipe if ingredient was selected
+                entryForm.RecipeId = null;
+
+                var ingredient = await _ingredientService.GetByIdAsync(entryForm.IngredientId.Value, GetCurrentUserId());
+                if (ingredient != null)
+                {
+                    // CaloriesPer100g * quantity(g) / 100
+                    kcal = ingredient.CaloriesPer100g * entryForm.Quantity / 100m;
+                }
+            }
+
             var entry = new JournalEntry
             {
                 RecipeId = entryForm.RecipeId,
                 IngredientId = entryForm.IngredientId,
                 Quantity = entryForm.Quantity,
                 MealType = entryForm.MealType,
-                KcalConsumed = entryForm.KcalConsumed,
+                KcalConsumed = kcal,
                 LoggedAt = entryForm.LoggedAt
             };
 
@@ -253,6 +281,8 @@ namespace paw_np.Controllers
                 LoggedAt = entry.LoggedAt
             };
 
+            await PopulateEntryFormOptionsAsync(model);
+
             return View(model);
         }
 
@@ -267,7 +297,30 @@ namespace paw_np.Controllers
 
             if (!ModelState.IsValid)
             {
+                await PopulateEntryFormOptionsAsync(model);
                 return View(model);
+            }
+
+            // Auto-calculate KcalConsumed
+            decimal kcal = 0;
+            if (model.RecipeId.HasValue && model.RecipeId > 0)
+            {
+                model.IngredientId = null;
+                var recipe = await _recipeService.GetByIdAsync(model.RecipeId.Value, GetCurrentUserId());
+                if (recipe != null)
+                {
+                    var kcalPerServing = recipe.Servings > 0 ? recipe.TotalKcal / recipe.Servings : recipe.TotalKcal;
+                    kcal = kcalPerServing * model.Quantity;
+                }
+            }
+            else if (model.IngredientId.HasValue && model.IngredientId > 0)
+            {
+                model.RecipeId = null;
+                var ingredient = await _ingredientService.GetByIdAsync(model.IngredientId.Value, GetCurrentUserId());
+                if (ingredient != null)
+                {
+                    kcal = ingredient.CaloriesPer100g * model.Quantity / 100m;
+                }
             }
 
             var entry = new JournalEntry
@@ -276,7 +329,7 @@ namespace paw_np.Controllers
                 IngredientId = model.IngredientId,
                 Quantity = model.Quantity,
                 MealType = model.MealType,
-                KcalConsumed = model.KcalConsumed,
+                KcalConsumed = kcal,
                 LoggedAt = model.LoggedAt
             };
 
@@ -289,10 +342,28 @@ namespace paw_np.Controllers
                 }
 
                 AddModelError(result.ErrorMessage);
+                await PopulateEntryFormOptionsAsync(model);
                 return View(model);
             }
 
             return RedirectToAction(nameof(Details), new { id = model.JournalId });
+        }
+
+        private async Task PopulateEntryFormOptionsAsync(FoodJournalEntryFormViewModel model)
+        {
+            var userId = GetCurrentUserId();
+            var ingredients = await _ingredientService.GetAllAsync(userId);
+            var recipes = await _recipeService.GetAllAsync(userId);
+
+            model.AvailableRecipes = recipes
+                .OrderBy(r => r.Name)
+                .Select(r => new RecipeOptionViewModel { Id = r.Id, Name = r.Name, TotalKcal = r.TotalKcal, Servings = r.Servings })
+                .ToList();
+
+            model.AvailableIngredients = ingredients
+                .OrderBy(i => i.Name)
+                .Select(i => new IngredientOptionViewModel { Id = i.Id, Name = i.Name, CaloriesPer100g = i.CaloriesPer100g })
+                .ToList();
         }
 
         [HttpPost]
@@ -346,11 +417,11 @@ namespace paw_np.Controllers
                 },
                 AvailableRecipes = recipes
                     .OrderBy(r => r.Name)
-                    .Select(r => new RecipeOptionViewModel { Id = r.Id, Name = r.Name })
+                    .Select(r => new RecipeOptionViewModel { Id = r.Id, Name = r.Name, TotalKcal = r.TotalKcal, Servings = r.Servings })
                     .ToList(),
                 AvailableIngredients = ingredients
                     .OrderBy(i => i.Name)
-                    .Select(i => new IngredientOptionViewModel { Id = i.Id, Name = i.Name })
+                    .Select(i => new IngredientOptionViewModel { Id = i.Id, Name = i.Name, CaloriesPer100g = i.CaloriesPer100g })
                     .ToList()
             };
         }

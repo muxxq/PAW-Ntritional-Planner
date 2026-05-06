@@ -15,69 +15,88 @@
 <div class="card mb-4">
     <div class="card-body">
         <div class="row mb-2">
-            <div class="col-md-3"><strong>User ID:</strong> @Model.Journal.UserId</div>
-            <div class="col-md-3"><strong>Total kcal:</strong> @Model.TotalKcalConsumed</div>
-            <div class="col-md-6"><strong>Notes:</strong> @(string.IsNullOrWhiteSpace(Model.Journal.Notes) ? "-" : Model.Journal.Notes)</div>
+            <div class="col-md-4"><strong>Total kcal:</strong> <span class="text-primary fw-bold">@Math.Round(Model.TotalKcalConsumed, 1)</span></div>
+            <div class="col-md-8"><strong>Notes:</strong> @(string.IsNullOrWhiteSpace(Model.Journal.Notes) ? "-" : Model.Journal.Notes)</div>
         </div>
     </div>
 </div>
 
 <div class="card mb-4">
-    <div class="card-header">Add Entry</div>
+    <div class="card-header">Log Entry</div>
     <div class="card-body">
-        <form asp-action="AddEntry" method="post" class="row g-3">
+        <form asp-action="AddEntry" method="post">
             @Html.AntiForgeryToken()
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
             <input type="hidden" asp-for="NewEntryForm.JournalId" />
 
-            <div class="col-md-2">
-                <label class="form-label">Recipe</label>
-                <select asp-for="NewEntryForm.RecipeId" class="form-select">
-                    <option value="">-- Select recipe (optional) --</option>
-                    @foreach (var recipe in Model.AvailableRecipes)
-                    {
-                        <option value="@recipe.Id">@recipe.Name</option>
-                    }
-                </select>
-            </div>
-            <div class="col-md-2">
-                <label class="form-label">Ingredient</label>
-                <select asp-for="NewEntryForm.IngredientId" class="form-select">
-                    <option value="">-- Select ingredient (optional) --</option>
-                    @foreach (var ingredient in Model.AvailableIngredients)
-                    {
-                        <option value="@ingredient.Id">@ingredient.Name</option>
-                    }
-                </select>
-            </div>
-            <div class="col-md-2">
-                <label asp-for="NewEntryForm.Quantity" class="form-label"></label>
-                <input asp-for="NewEntryForm.Quantity" class="form-control" />
-                <span asp-validation-for="NewEntryForm.Quantity" class="text-danger"></span>
-            </div>
-            <div class="col-md-2">
-                <label asp-for="NewEntryForm.MealType" class="form-label"></label>
-                <select asp-for="NewEntryForm.MealType" class="form-select">
-                    <option value="Breakfast">Mic dejun</option>
-                    <option value="Lunch">Pranz</option>
-                    <option value="Dinner">Cina</option>
-                    <option value="Snack">Snack</option>
-                </select>
-                <span asp-validation-for="NewEntryForm.MealType" class="text-danger"></span>
-            </div>
-            <div class="col-md-2">
-                <label asp-for="NewEntryForm.KcalConsumed" class="form-label"></label>
-                <input asp-for="NewEntryForm.KcalConsumed" class="form-control" />
-                <span asp-validation-for="NewEntryForm.KcalConsumed" class="text-danger"></span>
-            </div>
-            <div class="col-md-2">
-                <label asp-for="NewEntryForm.LoggedAt" class="form-label"></label>
-                <input asp-for="NewEntryForm.LoggedAt" class="form-control" />
-                <span asp-validation-for="NewEntryForm.LoggedAt" class="text-danger"></span>
+            <!-- Entry type toggle -->
+            <div class="mb-3">
+                <label class="form-label fw-bold">What are you logging?</label>
+                <div class="btn-group w-100" role="group">
+                    <input type="radio" class="btn-check" name="entryType" id="typeRecipe" value="recipe" checked onchange="toggleEntryType()">
+                    <label class="btn btn-outline-success" for="typeRecipe">A Recipe</label>
+                    <input type="radio" class="btn-check" name="entryType" id="typeIngredient" value="ingredient" onchange="toggleEntryType()">
+                    <label class="btn btn-outline-info" for="typeIngredient">An Ingredient</label>
+                </div>
             </div>
 
-            <div class="col-12">
-                <button type="submit" class="btn btn-primary">Add Entry</button>
+            <div class="row g-3">
+                <!-- Recipe selector -->
+                <div class="col-md-4" id="recipeGroup">
+                    <label class="form-label">Recipe</label>
+                    <select asp-for="NewEntryForm.RecipeId" class="form-select" id="recipeSelect" onchange="calculateKcal()">
+                        <option value="">-- Select recipe --</option>
+                        @foreach (var recipe in Model.AvailableRecipes)
+                        {
+                            <option value="@recipe.Id"
+                                    data-totalkcal="@recipe.TotalKcal"
+                                    data-servings="@recipe.Servings">@recipe.Name</option>
+                        }
+                    </select>
+                </div>
+
+                <!-- Ingredient selector (hidden by default) -->
+                <div class="col-md-4 d-none" id="ingredientGroup">
+                    <label class="form-label">Ingredient</label>
+                    <select asp-for="NewEntryForm.IngredientId" class="form-select" id="ingredientSelect" onchange="calculateKcal()">
+                        <option value="">-- Select ingredient --</option>
+                        @foreach (var ingredient in Model.AvailableIngredients)
+                        {
+                            <option value="@ingredient.Id"
+                                    data-calper100="@ingredient.CaloriesPer100g">@ingredient.Name</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="col-md-2">
+                    <label asp-for="NewEntryForm.Quantity" class="form-label" id="qtyLabel">Servings</label>
+                    <input asp-for="NewEntryForm.Quantity" class="form-control" id="qtyInput" type="number" step="0.01" min="0.01" value="1" oninput="calculateKcal()" />
+                    <span asp-validation-for="NewEntryForm.Quantity" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-2">
+                    <label asp-for="NewEntryForm.MealType" class="form-label"></label>
+                    <select asp-for="NewEntryForm.MealType" class="form-select">
+                        <option value="Breakfast">Mic dejun</option>
+                        <option value="Lunch">Pranz</option>
+                        <option value="Dinner">Cina</option>
+                        <option value="Snack">Snack</option>
+                    </select>
+                </div>
+
+                <div class="col-md-2">
+                    <label class="form-label">Kcal (auto)</label>
+                    <input type="text" class="form-control bg-light" id="kcalPreview" value="0" readonly />
+                </div>
+
+                <div class="col-md-2">
+                    <label asp-for="NewEntryForm.LoggedAt" class="form-label"></label>
+                    <input asp-for="NewEntryForm.LoggedAt" class="form-control" type="datetime-local" />
+                </div>
+            </div>
+
+            <div class="mt-3">
+                <button type="submit" class="btn btn-primary">Log Entry</button>
             </div>
         </form>
     </div>
@@ -89,45 +108,103 @@
 }
 else
 {
-    <table class="table table-striped align-middle">
-        <thead>
-            <tr>
-                <th>Logged at</th>
-                <th>Meal</th>
-                <th>Entry</th>
-                <th>Quantity</th>
-                <th>kcal</th>
-                <th class="text-end">Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        @foreach (var entry in Model.Entries)
-        {
-            <tr>
-                <td>@entry.LoggedAt.ToLocalTime().ToString("yyyy-MM-dd HH:mm")</td>
-                <td>@entry.MealType</td>
-                <td>@entry.EntryName</td>
-                <td>@entry.Quantity</td>
-                <td>@entry.KcalConsumed</td>
-                <td class="text-end">
-                    <a asp-action="EditEntry" asp-route-id="@entry.Id" class="btn btn-sm btn-outline-secondary">Edit</a>
-                    <form asp-action="DeleteEntry" method="post" class="d-inline">
-                        @Html.AntiForgeryToken()
-                        <input type="hidden" name="id" value="@entry.Id" />
-                        <input type="hidden" name="journalId" value="@entry.JournalId" />
-                        <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
-                    </form>
-                </td>
-            </tr>
-        }
-        </tbody>
-    </table>
+    <div class="card">
+        <div class="card-body p-0">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>Logged at</th>
+                        <th>Meal</th>
+                        <th>Entry</th>
+                        <th class="text-center">Quantity</th>
+                        <th class="text-center">kcal</th>
+                        <th class="text-end pe-3">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach (var entry in Model.Entries)
+                {
+                    <tr>
+                        <td>@entry.LoggedAt.ToLocalTime().ToString("yyyy-MM-dd HH:mm")</td>
+                        <td><span class="badge bg-secondary">@entry.MealType</span></td>
+                        <td><strong>@entry.EntryName</strong></td>
+                        <td class="text-center">@entry.Quantity</td>
+                        <td class="text-center fw-bold text-primary">@Math.Round(entry.KcalConsumed, 1)</td>
+                        <td class="text-end pe-3">
+                            <form asp-action="DeleteEntry" method="post" class="d-inline">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="id" value="@entry.Id" />
+                                <input type="hidden" name="journalId" value="@entry.JournalId" />
+                                <button type="submit" class="btn btn-sm btn-outline-danger"
+                                        onclick="return confirm('Stergi aceasta intrare?')">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
 }
 
-<a asp-action="Index" class="btn btn-link">Back to List</a>
+<a asp-action="Index" class="btn btn-link mt-3">Back to List</a>
 
 @section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        function toggleEntryType() {
+            const isRecipe = document.getElementById('typeRecipe').checked;
+            const recipeGroup = document.getElementById('recipeGroup');
+            const ingredientGroup = document.getElementById('ingredientGroup');
+            const qtyLabel = document.getElementById('qtyLabel');
+
+            if (isRecipe) {
+                recipeGroup.classList.remove('d-none');
+                ingredientGroup.classList.add('d-none');
+                // Clear ingredient selection
+                document.getElementById('ingredientSelect').value = '';
+                qtyLabel.textContent = 'Servings';
+                document.getElementById('qtyInput').step = 'any';
+            } else {
+                recipeGroup.classList.add('d-none');
+                ingredientGroup.classList.remove('d-none');
+                // Clear recipe selection
+                document.getElementById('recipeSelect').value = '';
+                qtyLabel.textContent = 'Grams (g)';
+                document.getElementById('qtyInput').step = 'any';
+            }
+
+            calculateKcal();
+        }
+
+        function calculateKcal() {
+            const isRecipe = document.getElementById('typeRecipe').checked;
+            const qty = parseFloat(document.getElementById('qtyInput').value) || 0;
+            let kcal = 0;
+
+            if (isRecipe) {
+                const select = document.getElementById('recipeSelect');
+                const option = select.options[select.selectedIndex];
+                if (option && option.value) {
+                    const totalKcal = parseFloat(option.dataset.totalkcal) || 0;
+                    const servings = parseInt(option.dataset.servings) || 1;
+                    const kcalPerServing = totalKcal / servings;
+                    kcal = kcalPerServing * qty;
+                }
+            } else {
+                const select = document.getElementById('ingredientSelect');
+                const option = select.options[select.selectedIndex];
+                if (option && option.value) {
+                    const calPer100 = parseFloat(option.dataset.calper100) || 0;
+                    kcal = calPer100 * qty / 100;
+                }
+            }
+
+            document.getElementById('kcalPreview').value = Math.round(kcal * 10) / 10;
+        }
+
+        // Init on page load
+        toggleEntryType();
+    </script>
 }

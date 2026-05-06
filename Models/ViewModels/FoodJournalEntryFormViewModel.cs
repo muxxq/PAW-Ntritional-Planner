@@ -30,5 +30,9 @@ namespace paw_np.Models.ViewModels
         [Display(Name = "Logat la")]
         [DataType(DataType.DateTime)]
         public DateTime LoggedAt { get; set; } = DateTime.UtcNow;
+
+        // View-only properties
+        public List<RecipeOptionViewModel> AvailableRecipes { get; set; } = new();
+        public List<IngredientOptionViewModel> AvailableIngredients { get; set; } = new();
     }
 }

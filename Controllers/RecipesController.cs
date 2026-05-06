@@ -49,32 +49,88 @@ namespace paw_np.Controllers
         }
 
         // GET: Recipes/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            return View(new Recipe());
+            var model = new paw_np.Models.ViewModels.RecipeCreateViewModel();
+            await PopulateAvailableIngredients(model);
+            return View(model);
         }
 
         // POST: Recipes/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Description,Servings,PrepTimeMin,CookTimeMin")] Recipe recipe)
+        public async Task<IActionResult> Create(paw_np.Models.ViewModels.RecipeCreateViewModel model)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                var result = await _recipeService.CreateAsync(GetCurrentUserId(), recipe);
-                if (result.Success)
-                {
-                    return RedirectToAction(nameof(Index));
-                }
+                await PopulateAvailableIngredients(model);
+                return View(model);
+            }
 
+            var recipe = new Recipe
+            {
+                Name = model.Name,
+                Description = model.Description,
+                Instructions = model.Instructions,
+                Servings = model.Servings,
+                PrepTimeMin = model.PrepTimeMin,
+                CookTimeMin = model.CookTimeMin
+            };
+
+            var result = await _recipeService.CreateAsync(GetCurrentUserId(), recipe);
+            if (!result.Success)
+            {
                 if (!string.IsNullOrWhiteSpace(result.ErrorMessage))
                 {
                     ModelState.AddModelError(string.Empty, result.ErrorMessage);
                 }
+                await PopulateAvailableIngredients(model);
+                return View(model);
             }
-            return View(recipe);
+
+            // Now add each ingredient row
+            var createdRecipe = result.Recipe!;
+            foreach (var row in model.Ingredients)
+            {
+                int ingredientId = row.IngredientId;
+
+                // If the user is creating a new ingredient inline
+                if (ingredientId == 0 && !string.IsNullOrWhiteSpace(row.NewIngredientName))
+                {
+                    var newIngredient = new Ingredient
+                    {
+                        Name = row.NewIngredientName.Trim(),
+                        CaloriesPer100g = row.NewCaloriesPer100g,
+                        Proteins = row.NewProteins,
+                        Carbs = row.NewCarbs,
+                        Fats = row.NewFats,
+                        Unit = "g"
+                    };
+
+                    var ingResult = await _ingredientService.CreateAsync(GetCurrentUserId(), newIngredient);
+                    if (ingResult.Success && ingResult.Ingredient != null)
+                    {
+                        ingredientId = ingResult.Ingredient.Id;
+                    }
+                    else
+                    {
+                        continue; // skip if failed
+                    }
+                }
+
+                if (ingredientId > 0)
+                {
+                    var ri = new RecipeIngredient
+                    {
+                        IngredientId = ingredientId,
+                        Quantity = row.Quantity,
+                        Unit = row.Unit ?? "g"
+                    };
+                    await _recipeService.AddIngredientAsync(GetCurrentUserId(), createdRecipe.Id, ri);
+                }
+            }
+
+            return RedirectToAction(nameof(Details), new { id = createdRecipe.Id });
         }
 
         // GET: Recipes/Edit/5
@@ -98,12 +154,18 @@ namespace paw_np.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,Servings,PrepTimeMin,CookTimeMin")] Recipe recipe)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,Instructions,Servings,PrepTimeMin,CookTimeMin")] Recipe recipe)
         {
             if (id != recipe.Id)
             {
                 return NotFound();
             }
+
+            ModelState.Remove(nameof(Recipe.User));
+            ModelState.Remove(nameof(Recipe.UserId));
+            ModelState.Remove(nameof(Recipe.RecipeIngredients));
+            ModelState.Remove(nameof(Recipe.JournalEntries));
+            ModelState.Remove(nameof(Recipe.PlannerItems));
 
             if (ModelState.IsValid)
             {
@@ -187,6 +249,15 @@ namespace paw_np.Controllers
             }
 
             return RedirectToAction(nameof(Details), new { id = recipeId });
+        }
+
+        private async Task PopulateAvailableIngredients(paw_np.Models.ViewModels.RecipeCreateViewModel model)
+        {
+            var ingredients = await _ingredientService.GetAllAsync(GetCurrentUserId());
+            model.AvailableIngredients = ingredients
+                .OrderBy(i => i.Name)
+                .Select(i => new paw_np.Models.ViewModels.IngredientOptionViewModel { Id = i.Id, Name = i.Name })
+                .ToList();
         }
 
         private int GetCurrentUserId()

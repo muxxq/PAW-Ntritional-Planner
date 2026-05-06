@@ -40,6 +40,7 @@ namespace paw_np.Services
             recipe.UserId = userId;
             recipe.Name = (recipe.Name ?? string.Empty).Trim();
             recipe.Description = recipe.Description?.Trim();
+            recipe.Instructions = recipe.Instructions?.Trim();
 
             if (string.IsNullOrWhiteSpace(recipe.Name))
             {
@@ -71,6 +72,7 @@ namespace paw_np.Services
 
             recipe.Name = (recipe.Name ?? string.Empty).Trim();
             recipe.Description = recipe.Description?.Trim();
+            recipe.Instructions = recipe.Instructions?.Trim();
 
             if (string.IsNullOrWhiteSpace(recipe.Name))
             {
@@ -79,6 +81,7 @@ namespace paw_np.Services
 
             existing.Name = recipe.Name;
             existing.Description = recipe.Description;
+            existing.Instructions = recipe.Instructions;
             existing.Servings = Math.Max(1, recipe.Servings);
             existing.PrepTimeMin = Math.Max(0, recipe.PrepTimeMin);
             existing.CookTimeMin = Math.Max(0, recipe.CookTimeMin);
@@ -131,6 +134,9 @@ namespace paw_np.Services
 
             ingredient.RecipeId = recipeId;
             var created = await _recipeRepository.AddIngredientAsync(ingredient);
+            
+            await RecalculateRecipeMacrosAsync(recipeId, userId);
+            
             return (true, null, created);
         }
 
@@ -147,8 +153,43 @@ namespace paw_np.Services
                 return (false, "Ingredientul din reteta nu exista.");
             }
 
+            var recipeId = recipeIngredient.RecipeId;
             await _recipeRepository.DeleteIngredientAsync(recipeIngredient);
+            
+            await RecalculateRecipeMacrosAsync(recipeId, userId);
+            
             return (true, null);
+        }
+
+        private async Task RecalculateRecipeMacrosAsync(int recipeId, int userId)
+        {
+            var recipe = await _recipeRepository.GetByIdWithIngredientsAsync(recipeId, userId);
+            if (recipe == null) return;
+
+            decimal totalKcal = 0;
+            decimal totalProteins = 0;
+            decimal totalCarbs = 0;
+            decimal totalFats = 0;
+
+            foreach (var ri in recipe.RecipeIngredients)
+            {
+                if (ri.Ingredient != null)
+                {
+                    // Asumam ca Quantity din Ingredient este la 100g.
+                    var factor = ri.Quantity / 100m;
+                    totalKcal += ri.Ingredient.CaloriesPer100g * factor;
+                    totalProteins += ri.Ingredient.Proteins * factor;
+                    totalCarbs += ri.Ingredient.Carbs * factor;
+                    totalFats += ri.Ingredient.Fats * factor;
+                }
+            }
+
+            recipe.TotalKcal = totalKcal;
+            recipe.TotalProteins = totalProteins;
+            recipe.TotalCarbs = totalCarbs;
+            recipe.TotalFats = totalFats;
+
+            await _recipeRepository.UpdateAsync(recipe);
         }
     }
 }

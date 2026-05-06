@@ -5,7 +5,13 @@
     var availableIngredients = ViewBag.AvailableIngredients as List<paw_np.Models.ViewModels.IngredientOptionViewModel> ?? new();
 }
 
-<h2 class="mb-4">@Model.Name</h2>
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h3 mb-0">@Model.Name</h1>
+    <div>
+        <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-outline-secondary">Edit</a>
+        <a asp-action="Index" class="btn btn-outline-primary">Back to List</a>
+    </div>
+</div>
 
 @if (TempData["Error"] is not null)
 {
@@ -21,6 +27,9 @@
             <dt class="col-sm-3">Description</dt>
             <dd class="col-sm-9">@(Model.Description ?? "-")</dd>
 
+            <dt class="col-sm-3">Instructions</dt>
+            <dd class="col-sm-9" style="white-space: pre-wrap;">@(Model.Instructions ?? "-")</dd>
+
             <dt class="col-sm-3">Servings</dt>
             <dd class="col-sm-9">@Model.Servings</dd>
 
@@ -30,11 +39,20 @@
             <dt class="col-sm-3">Cook Time</dt>
             <dd class="col-sm-9">@Model.CookTimeMin min</dd>
 
-            <dt class="col-sm-3">Total Kcal</dt>
-            <dd class="col-sm-9">@Model.TotalKcal</dd>
+            <dt class="col-sm-3 mt-3 text-primary">Total Calories</dt>
+            <dd class="col-sm-9 mt-3 text-primary fw-bold">@Math.Round(Model.TotalKcal, 1) kcal</dd>
 
-            <dt class="col-sm-3">Created</dt>
-            <dd class="col-sm-9">@Model.CreatedAt.ToString("dd MMM yyyy")</dd>
+            <dt class="col-sm-3 text-success">Total Protein</dt>
+            <dd class="col-sm-9 text-success fw-bold">@Math.Round(Model.TotalProteins, 1) g</dd>
+
+            <dt class="col-sm-3 text-warning">Total Carbs</dt>
+            <dd class="col-sm-9 text-warning fw-bold">@Math.Round(Model.TotalCarbs, 1) g</dd>
+
+            <dt class="col-sm-3 text-danger">Total Fats</dt>
+            <dd class="col-sm-9 text-danger fw-bold">@Math.Round(Model.TotalFats, 1) g</dd>
+
+            <dt class="col-sm-3 mt-3">Created</dt>
+            <dd class="col-sm-9 mt-3">@Model.CreatedAt.ToString("dd MMM yyyy")</dd>
         </dl>
     </div>
 </div>
@@ -112,7 +130,3 @@ else
     </div>
 </div>
 
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-warning">Edit</a>
-    <a asp-action="Index" class="btn btn-outline-secondary">Back to List</a>
-</div>
