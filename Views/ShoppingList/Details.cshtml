@@ -4,26 +4,24 @@
     ViewData["Title"] = "Shopping List Details";
 }
 
-<div class="d-flex justify-content-between align-items-center mb-3">
+<div class="d-flex justify-content-between align-items-center mb-4">
     <h1 class="h3 mb-0">@Model.ShoppingList.Name</h1>
     <div>
         <a asp-action="Edit" asp-route-id="@Model.ShoppingList.Id" class="btn btn-outline-secondary">Edit List</a>
-        <a asp-action="Index" class="btn btn-link">Back to Lists</a>
+        <a asp-action="Index" class="btn btn-outline-primary">Back to Lists</a>
     </div>
 </div>
 
-<p class="text-muted mb-4">User ID: @Model.ShoppingList.UserId</p>
-
-<div class="card mb-4">
-    <div class="card-header">Add Item</div>
+<div class="card shadow-sm mb-4">
+    <div class="card-header bg-light fw-bold">Add Item</div>
     <div class="card-body">
-        <form asp-action="AddItem" method="post" class="row g-3">
+        <form asp-action="AddItem" method="post" class="row g-3 align-items-end">
             @Html.AntiForgeryToken()
             <input type="hidden" asp-for="NewItemForm.ShoppingListId" />
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
             <div class="col-md-4">
-                <label asp-for="NewItemForm.IngredientId" class="form-label"></label>
+                <label asp-for="NewItemForm.IngredientId" class="form-label">Ingredient</label>
                 <select asp-for="NewItemForm.IngredientId" class="form-select">
                     <option value="">-- Select ingredient --</option>
                     @foreach (var ingredient in Model.NewItemForm.AvailableIngredients)
@@ -33,79 +31,92 @@
                 </select>
             </div>
 
-            <div class="col-md-4">
-                <label asp-for="NewItemForm.CustomItemName" class="form-label"></label>
-                <input asp-for="NewItemForm.CustomItemName" class="form-control" />
+            <div class="col-md-3">
+                <label asp-for="NewItemForm.CustomItemName" class="form-label">Custom Item Name</label>
+                <input asp-for="NewItemForm.CustomItemName" class="form-control" placeholder="Or type a custom name..." />
                 <span asp-validation-for="NewItemForm.CustomItemName" class="text-danger"></span>
             </div>
 
             <div class="col-md-2">
-                <label asp-for="NewItemForm.Quantity" class="form-label"></label>
-                <input asp-for="NewItemForm.Quantity" class="form-control" />
+                <label asp-for="NewItemForm.Quantity" class="form-label">Quantity</label>
+                <input asp-for="NewItemForm.Quantity" class="form-control" type="number" step="any" min="0.01" />
                 <span asp-validation-for="NewItemForm.Quantity" class="text-danger"></span>
             </div>
 
             <div class="col-md-2">
-                <label asp-for="NewItemForm.Unit" class="form-label"></label>
+                <label asp-for="NewItemForm.Unit" class="form-label">Unit</label>
                 <input asp-for="NewItemForm.Unit" class="form-control" />
                 <span asp-validation-for="NewItemForm.Unit" class="text-danger"></span>
             </div>
 
-            <div class="col-12">
-                <button type="submit" class="btn btn-primary">Add Item</button>
+            <div class="col-md-1">
+                <button type="submit" class="btn btn-primary w-100">Add</button>
             </div>
         </form>
     </div>
 </div>
 
+<h4 class="mb-3">Items</h4>
+
 @if (!Model.Items.Any())
 {
-    <div class="alert alert-info">No items in this shopping list.</div>
+    <div class="alert alert-info">No items in this shopping list. Add some using the form above!</div>
 }
 else
 {
-    <table class="table table-striped align-middle">
-        <thead>
-            <tr>
-                <th>Status</th>
-                <th>Item</th>
-                <th>Quantity</th>
-                <th class="text-end">Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        @foreach (var item in Model.Items)
-        {
-            <tr>
-                <td>
-                    <form asp-action="ToggleItemChecked" method="post">
-                        <input type="hidden" name="id" value="@item.Id" />
-                        <input type="hidden" name="shoppingListId" value="@item.ShoppingListId" />
-                        @Html.AntiForgeryToken()
-                        <button type="submit" class="btn btn-sm @(item.IsChecked ? "btn-success" : "btn-outline-secondary")">
-                            @(item.IsChecked ? "Checked" : "Open")
-                        </button>
-                    </form>
-                </td>
-                <td>@item.DisplayName</td>
-                <td>@item.Quantity @item.Unit</td>
-                <td class="text-end">
-                    <a asp-action="EditItem" asp-route-id="@item.Id" class="btn btn-sm btn-outline-secondary">Edit</a>
-                    <form asp-action="DeleteItem" method="post" class="d-inline">
-                        <input type="hidden" name="id" value="@item.Id" />
-                        <input type="hidden" name="shoppingListId" value="@item.ShoppingListId" />
-                        @Html.AntiForgeryToken()
-                        <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
-                    </form>
-                </td>
-            </tr>
-        }
-        </tbody>
-    </table>
+    <div class="card shadow-sm">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th class="text-center" style="width: 80px;">Status</th>
+                            <th>Item Name</th>
+                            <th class="text-center">Quantity</th>
+                            <th class="text-end pe-3">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var item in Model.Items)
+                    {
+                        var textClass = item.IsChecked ? "text-decoration-line-through text-muted" : "fw-bold";
+                        <tr>
+                            <td class="text-center">
+                                <form asp-action="ToggleItemChecked" method="post" id="form-toggle-@item.Id">
+                                    <input type="hidden" name="id" value="@item.Id" />
+                                    <input type="hidden" name="shoppingListId" value="@item.ShoppingListId" />
+                                    @Html.AntiForgeryToken()
+                                    <div class="form-check d-flex justify-content-center m-0">
+                                        <input class="form-check-input fs-4" style="cursor: pointer;" type="checkbox" @(item.IsChecked ? "checked" : "") onchange="document.getElementById('form-toggle-@item.Id').submit();">
+                                    </div>
+                                </form>
+                            </td>
+                            <td>
+                                <span class="@textClass">@item.DisplayName</span>
+                            </td>
+                            <td class="text-center">
+                                <span class="badge bg-secondary">@item.Quantity @item.Unit</span>
+                            </td>
+                            <td class="text-end pe-3">
+                                <div class="btn-group" role="group">
+                                    <a asp-action="EditItem" asp-route-id="@item.Id" class="btn btn-sm btn-outline-secondary">Edit</a>
+                                    <form asp-action="DeleteItem" method="post" class="d-inline">
+                                        <input type="hidden" name="id" value="@item.Id" />
+                                        <input type="hidden" name="shoppingListId" value="@item.ShoppingListId" />
+                                        @Html.AntiForgeryToken()
+                                        <button type="submit" class="btn btn-sm btn-outline-danger border-start-0" onclick="return confirm('Remove this item?');">Delete</button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 }
 
 @section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
+    <partial name="_ValidationScriptsPartial" />
 }
